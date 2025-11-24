@@ -22,6 +22,12 @@ class Client(models.Model):
         choices=TIPOS_CLIENTE
     )
 
+    cif_nif = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+    )
+
     t_number = models.CharField(
         verbose_name='Nº teléfono',
         max_length=30,
@@ -53,6 +59,11 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def clean(self):
+        if self.name:
+            self.name = self.name.strip().title()
+        
 
 class ClientContact(models.Model):
     client=models.ForeignKey(

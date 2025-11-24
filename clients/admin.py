@@ -37,6 +37,7 @@ class ClientAdmin(admin.ModelAdmin):
         't_number',
         'email',
         'direccion',
+        'cif_nif',
         'other',
         'created_at',
     ]
@@ -45,6 +46,7 @@ class ClientAdmin(admin.ModelAdmin):
         "name",
         't_number',
         'email',
+        'cif_nif',
     )
 
     list_filter = [
