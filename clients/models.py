@@ -102,7 +102,7 @@ class ClientFile(models.Model):
 
     file = models.FileField(
         verbose_name="Archivos",
-        upload_to="clients/",
+        upload_to="clients_files",
         null=True,
         blank=True,
     )
