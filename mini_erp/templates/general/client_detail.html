@@ -1,0 +1,30 @@
+<h1>{{ client.name }}</h1>
+
+<p><strong>Tipo:</strong> {{ client.tipo}}</p>
+<p><strong>CIF/NIF:</strong> {{ client.cif_nif }}</p>
+<p><strong>Teléfono:</strong> {{ client.t_number }}</p>
+<p><strong>Email:</strong> {{ client.email }}</p>
+<p><strong>Direccion:</strong> {{ client.direccion }}</p>
+
+<hr>
+
+<h2>Contactos</h2>
+<ul>
+    {% for c in contacts %}
+        <li>{{ c.first_name }} - {{ c.last_name }} - {{ c.t_number }}</li>
+    {% empty %}
+        <p>No hay contactos</p>
+    {% endfor %}
+</ul>
+
+<h2>Archivos</h2>
+<ul>
+    {% for f in files %}
+        <li><a href="{{ f.file.url }}">{{ f.descripcion }}</a></li>
+    {% empty %}
+        <p>No hay archivos</p>
+    {% endfor %}
+</ul>
+
+<hr>
+<p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>
