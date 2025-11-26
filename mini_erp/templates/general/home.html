@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block head_title %}Home{% endblock %}</title>
-</head>
-<body>
-    <h1>{% block h1 %}Bienvenido a la Home{% endblock %}</h1>
+{% extends "general/layout.html" %}
 
+{% block head_title %} Bienvenido a la Home {% endblock %}
 
-    {% block contenido %}
+{% block contenido %}
         <div class="container">
-            <ul>
-                <li><a href="{% url 'clients:clients_list' %}">Lista de Clientes</a></li>
-            </ul>
+            
+             <h1>{% block h1 %}Bienvenido a la Home{% endblock %}</h1>
+             <ul>
+                <li><a href="{% url 'clients:clients_list' %}">Clientes</a></li>
+             </ul>
+
         </div>
-    {% endblock %}
-
-
-</body>
-</html>
+       
+{% endblock %}

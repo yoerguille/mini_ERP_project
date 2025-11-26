@@ -6,6 +6,9 @@
 <p><strong>Email:</strong> {{ client.email }}</p>
 <p><strong>Direccion:</strong> {{ client.direccion }}</p>
 
+<p><a href="{% url 'clients:clients_update' client.pk %}">Editar Cliente</a></p>
+
+
 <hr>
 
 <h2>Contactos</h2>
