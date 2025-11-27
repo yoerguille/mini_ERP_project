@@ -1,0 +1,21 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} {{contact.name}} {% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <h1>{% block h1 %}{{ contact.first_name}}{% endblock %}</h1>
+
+    <p><strong>Contacto de: </strong> {{ contact.client}}</p>
+    <p><strong>Nombre:</strong> {{ contact.first_name|default_if_none:"Sin rellenar" }}</p>
+    <p><strong>Apellidos:</strong> {{ contact.last_name|default_if_none:"Sin rellenar" }}</p>
+    <p><strong>Cargo:</strong> {{ contact.cargo|default_if_none:"Sin rellenar" }}</p>
+    <p><strong>Teléfono:</strong> {{ contact.t_number|default_if_none:"Sin rellenar" }}</p>
+    <p><strong>Email:</strong> {{ contact.email|default_if_none:"Sin rellenar" }}</p>
+
+    <p><a href="{% url 'clients:clients_contact_update' contact.pk %}">Editar Contacto</a></p>
+
+    <hr>
+    <p><a href="{% url 'clients:clients_detail' contact.client.pk %}">Volver atrás</a></p>
+</div>
+{% endblock %}

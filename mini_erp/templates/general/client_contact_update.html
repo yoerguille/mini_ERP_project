@@ -1,0 +1,32 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} Edicion Contacto {% endblock %}
+
+{% block h1 %}Página de edición de Contacto{% endblock %}
+
+{% block contenido %}
+   <div class="container">
+        
+
+        <h1>Editar Contacto</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        {{ form.first_name|as_crispy_field }}
+                        {{ form.last_name|as_crispy_field }}
+                        {{ form.cargo|as_crispy_field }}
+                        {{ form.t_number|as_crispy_field }}
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                </div>
+                <button class="btn btn-secondary">Guardar</button>
+            </form> 
+
+        <p><a href="{% url 'clients:clients_contact_detail' update.pk %}">Volver atrás</a></p>
+    </div>
+
+        
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} New Client {% endblock %}
+
+{% block h1 %} Nuevo Cliente {% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <h1>Rellena los siguientes campos</h1>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    {{ form.name|as_crispy_field }}
+                    {{ form.tipo|as_crispy_field }}
+                    {{ form.cif_nif|as_crispy_field }}
+                    {{ form.t_number|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    {{ form.direccion|as_crispy_field }}
+                    {{ form.other|as_crispy_field }}
+                </div>
+            </div>
+            <button class= "btn btn-secondary">Guardar</button>
+        </form>
+        <p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>
+    </div>
+{% endblock %}

@@ -1,33 +1,44 @@
-<h1>{{ client.name }}</h1>
+{% extends "general/layout.html" %}
 
-<p><strong>Tipo:</strong> {{ client.tipo}}</p>
-<p><strong>CIF/NIF:</strong> {{ client.cif_nif }}</p>
-<p><strong>Teléfono:</strong> {{ client.t_number }}</p>
-<p><strong>Email:</strong> {{ client.email }}</p>
-<p><strong>Direccion:</strong> {{ client.direccion }}</p>
+{% block head_title %} {{client.name}} {% endblock %}
 
-<p><a href="{% url 'clients:clients_update' client.pk %}">Editar Cliente</a></p>
+{% block contenido %}
+<div class="container">
+    <h1>{% block h1 %}{{ client.name }}{% endblock %}</h1>
 
+    <p><strong>Tipo:</strong> {{ client.tipo}}</p>
+    <p><strong>CIF/NIF:</strong> {{ client.cif_nif|default_if_none:"Sin rellenar" }}</p>
+    <p><strong>Teléfono:</strong> {{ client.t_number }}</p>
+    <p><strong>Email:</strong> {{ client.email }}</p>
+    <p><strong>Direccion:</strong> {{ client.direccion }}</p>
 
-<hr>
+    <p><a href="{% url 'clients:clients_update' client.pk %}">Editar Cliente</a></p>
 
-<h2>Contactos</h2>
-<ul>
-    {% for c in contacts %}
-        <li>{{ c.first_name }} - {{ c.last_name }} - {{ c.t_number }}</li>
-    {% empty %}
-        <p>No hay contactos</p>
-    {% endfor %}
-</ul>
-
-<h2>Archivos</h2>
-<ul>
-    {% for f in files %}
-        <li><a href="{{ f.file.url }}">{{ f.descripcion }}</a></li>
-    {% empty %}
-        <p>No hay archivos</p>
-    {% endfor %}
-</ul>
 
 <hr>
-<p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>
+
+    <h2>Contactos</h2>
+    <ul>
+        {% for c in client.relacionados.all %} 
+            <li><a href="{% url 'clients:clients_contact_detail' c.pk %}">{{ c.first_name }} - {{ c.last_name }} - {{ c.t_number }}</a></li>
+            
+        {% empty %}
+            <p>No hay contactos</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Archivos</h2>
+    <ul>
+        {% for f in client.files.all %}
+        {% if f.file %}
+            <li><img src="{{ f.file.url }}" alt="" width=200>{{ f.descripcion }}</li>
+        {% else %}
+            <p>No hay archivos</p
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>
+</div>
+{% endblock %}

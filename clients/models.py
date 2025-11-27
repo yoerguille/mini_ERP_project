@@ -23,6 +23,7 @@ class Client(models.Model):
     )
 
     cif_nif = models.CharField(
+        verbose_name='CIF/NIF',
         max_length=20,
         blank=True,
         null=True,
