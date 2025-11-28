@@ -1,9 +1,9 @@
 {% extends "general/layout.html" %}
 {% load crispy_forms_tags %}
 
-{% block head_title %} New Client {% endblock %}
+{% block head_title %} New Contact {% endblock %}
 
-{% block h1 %} Nuevo Cliente {% endblock %}
+{% block h1 %} Nuevo Contacto {% endblock %}
 
 {% block contenido %}
     <div class="container">
@@ -17,6 +17,6 @@
             </div>
             <button class= "btn btn-secondary">Guardar</button>
         </form>
-        <p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>
+        <p><a href="{% url 'clients:clients_detail' client_pk %}">Volver atrás</a></p>
     </div>
 {% endblock %}

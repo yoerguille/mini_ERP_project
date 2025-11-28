@@ -26,6 +26,7 @@
             <p>No hay contactos</p>
         {% endfor %}
     </ul>
+    <p><a href="{% url 'clients:clients_contact_add' client.pk %}">Añadir nuevo contacto</a></p>
 
     <h2>Archivos</h2>
     <ul>
