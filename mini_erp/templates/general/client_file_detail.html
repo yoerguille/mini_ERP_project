@@ -1,0 +1,17 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} {{file.client.name}} {% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <h1>{% block h1 %}{{ file.client.name }}{% endblock %}</h1>
+<hr>    
+
+            <p><img src="{{ file.file.url }}" alt="" width=500></p>
+            <p><strong>Descripcion:</strong> {{ file.descripcion}}</p>
+            <p><strong>Fecha de Creacion:</strong> {{ file.created_at}}</p>
+
+<hr>
+    <p><a href="{% url 'clients:clients_detail' file.client.pk %}">Volver atrás</a></p>
+</div>
+{% endblock %}

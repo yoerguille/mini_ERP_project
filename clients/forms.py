@@ -21,3 +21,12 @@ class ClientFileForm(forms.ModelForm):
         widgets = {
             "client": forms.HiddenInput()
         }
+
+class CreateFileForm(forms.ModelForm):
+    class Meta:
+        model= ClientFile
+        fields = [
+            'file',
+            'descripcion',
+            'created_at',  
+        ]

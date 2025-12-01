@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from ..models import Client, ClientContact
+from ..models import Client, ClientContact, ClientFile
 from django.urls import reverse_lazy, reverse
 from mini_erp.forms import AddClientForm
+from clients.forms import CreateFileForm
 
 class ClientRegisterView(CreateView):
     model = Client
@@ -52,6 +53,17 @@ class ClientContactRegisterView(CreateView):
         context= super().get_context_data(**kwargs)
         context["client_pk"] = self.kwargs["pk"]
         return context
+    
+class ClientFileRegisterView(CreateView):
+    context_object_name = 'file'
+    model = ClientFile
+    template_name = 'general/client_file_add.html'
+    form_class = CreateFileForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.client_id = self.kwargs["pk"]
+        return super().form_valid(form)
 
 class ClientListView(ListView):
     model= Client
@@ -76,6 +88,11 @@ class ClientContactDetailView(DetailView):
     model = ClientContact
     template_name = 'general/client_contact_detail.html'
     context_object_name = 'contact'
+
+class ClientFileDetailView(DetailView):
+    model = ClientFile
+    template_name = 'general/client_file_detail.html'
+    context_object_name = 'file'
         
  
 class ClientUpdateView(UpdateView):

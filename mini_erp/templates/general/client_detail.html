@@ -32,12 +32,15 @@
     <ul>
         {% for f in client.files.all %}
         {% if f.file %}
-            <li><img src="{{ f.file.url }}" alt="" width=200>{{ f.descripcion }}</li>
+            <li><a href="{% url 'clients:clients_files_detail' f.pk %}">
+                <img src="{{ f.file.url }}" alt="" width=200>
+            </a></li>
         {% else %}
             <p>No hay archivos</p
         {% endif %}
         {% endfor %}
     </ul>
+    <p><a href="{% url 'clients:clients_files_add' client.pk %}">Añadir nuevo archivo</a></p>
 
     <hr>
     <p><a href="{% url 'clients:clients_list' %}">Volver atrás</a></p>

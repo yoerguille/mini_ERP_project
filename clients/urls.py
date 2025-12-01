@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views.clients_view import ClientListView, ClientDetailView, ClientUpdateView, ClientContactDetailView, ClientContactUpdateView
-from .views.clients_view import ClientRegisterView, ClientContactRegisterView
+from .views.clients_view import ClientRegisterView, ClientContactRegisterView, ClientFileDetailView, ClientFileRegisterView
 
 app_name = "clients"
 
@@ -13,6 +13,8 @@ urlpatterns = [
     path('update/<pk>', ClientUpdateView.as_view(), name='clients_update'),
     path('contact/detail/<pk>', ClientContactDetailView.as_view(), name='clients_contact_detail'),
     path('contact/update/<pk>', ClientContactUpdateView.as_view(), name='clients_contact_update'),
-     path('<int:pk>/contact/add', ClientContactRegisterView.as_view(), name='clients_contact_add')
+    path('<int:pk>/contact/add', ClientContactRegisterView.as_view(), name='clients_contact_add'),
+    path('file/detail/<pk>', ClientFileDetailView.as_view(), name='clients_files_detail'),
+    path('<int:pk>/file/add', ClientFileRegisterView.as_view(), name='clients_files_add'),
 
 ]
