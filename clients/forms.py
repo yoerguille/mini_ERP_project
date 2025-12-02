@@ -4,15 +4,25 @@ from .models import Client, ClientContact, ClientFile
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = '__all__'
+        fields =[ 'name',
+            'tipo',
+            'cif_nif',
+            't_number',
+            'email',
+            'direccion',
+            'other',
+        ]
 
 class ClientContactForm(forms.ModelForm):
     class Meta:
         model = ClientContact
-        fields = '__all__'
-        widgets = {
-            "client": forms.HiddenInput()
-        }
+        fields = [
+            'first_name',
+            'last_name',
+            'cargo',
+            't_number',
+            'email',
+        ]
 
 class ClientFileForm(forms.ModelForm):
     class Meta:

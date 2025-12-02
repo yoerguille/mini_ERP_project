@@ -13,5 +13,6 @@
 
 <hr>
     <p><a href="{% url 'clients:clients_detail' file.client.pk %}">Volver atrás</a></p>
+    <p><a href="{% url 'clients:clients_file_delete' file.pk %}">Eliminar Archivo</a></p>
 </div>
 {% endblock %}

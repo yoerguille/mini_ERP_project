@@ -13,6 +13,7 @@
     <p><strong>Direccion:</strong> {{ client.direccion }}</p>
 
     <p><a href="{% url 'clients:clients_update' client.pk %}">Editar Cliente</a></p>
+    <p><a href="{% url 'clients:clients_delete' client.pk %}">Eliminar Cliente</a></p>
 
 
 <hr>

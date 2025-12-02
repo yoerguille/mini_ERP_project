@@ -12,7 +12,15 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-12 col-sm-6">
-                    {{ form.as_p}}
+                    {{ form.name|as_crispy_field}}
+                    {{ form.tipo|as_crispy_field}}
+                    {{ form.cif_nif|as_crispy_field}}
+                    {{ form.t_number|as_crispy_field}}
+                    {{ form.email|as_crispy_field}}
+                    {{ form.direccion|as_crispy_field}}
+                    {{ form.other|as_crispy_field}}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
                 </div>
             </div>
             <button class= "btn btn-secondary">Guardar</button>

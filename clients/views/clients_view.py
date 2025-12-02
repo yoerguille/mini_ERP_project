@@ -4,55 +4,43 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from ..models import Client, ClientContact, ClientFile
 from django.urls import reverse_lazy, reverse
 from mini_erp.forms import AddClientForm
-from clients.forms import CreateFileForm
+from clients.forms import CreateFileForm, ClientContactForm, ClientForm
+
+class ClientDeleteView(DeleteView):
+    model = Client
+    template_name= 'general/client_delete.html'
+    success_url= reverse_lazy('home')
+
+class ClientContactDeleteView(DeleteView):
+    model = ClientContact
+    template_name= 'general/client_contact_delete.html'
+    success_url= reverse_lazy('home')
+
+class ClientFileDeleteView(DeleteView):
+    model = ClientFile
+    template_name= 'general/client_file_delete.html'
+    success_url= reverse_lazy('home')
 
 class ClientRegisterView(CreateView):
     model = Client
     template_name = 'general/client_add.html'
-    success_url= reverse_lazy('clients:clients_list')
-    fields = [
-        'name',
-        'tipo',
-        'cif_nif',
-        't_number',
-        'email',
-        'direccion',
-        'other',
-        'created_at',
-    ]
+    success_url= reverse_lazy('home')
+    form_class = ClientForm
 
     def form_valid(self, form):
         return super().form_valid(form)
-    
-    def get_success_url(self):
-        return reverse('clients:clients_detail', args=[self.object.pk])
     
 class ClientContactRegisterView(CreateView):
     context_object_name = 'contact'
     model = ClientContact
     template_name = 'general/client_contact_add.html'
-    fields = [
-        'client',
-        'first_name',
-        'last_name',
-        'cargo',
-        't_number',
-        'email',
-    ]
+    form_class = ClientContactForm
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         # Guardar automáticamente el cliente correspondiente
-        form.instance.clients_id = self.kwargs["pk"]
+        form.instance.client_id = self.kwargs["pk"]
         return super().form_valid(form)
-
-    def get_success_url(self):
-        # Volver al detalle del cliente
-        return reverse("clients:clients_detail", kwargs={"pk": self.kwargs["pk"]})
-    
-    def get_context_data(self, **kwargs):
-        context= super().get_context_data(**kwargs)
-        context["client_pk"] = self.kwargs["pk"]
-        return context
     
 class ClientFileRegisterView(CreateView):
     context_object_name = 'file'

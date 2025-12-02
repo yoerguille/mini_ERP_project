@@ -14,6 +14,7 @@
     <p><strong>Email:</strong> {{ contact.email|default_if_none:"Sin rellenar" }}</p>
 
     <p><a href="{% url 'clients:clients_contact_update' contact.pk %}">Editar Contacto</a></p>
+    <p><a href="{% url 'clients:clients_contact_delete' contact.pk %}">Eliminar Contacto</a></p>
 
     <hr>
     <p><a href="{% url 'clients:clients_detail' contact.client.pk %}">Volver atrás</a></p>

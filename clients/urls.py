@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views.clients_view import ClientListView, ClientDetailView, ClientUpdateView, ClientContactDetailView, ClientContactUpdateView
-from .views.clients_view import ClientRegisterView, ClientContactRegisterView, ClientFileDetailView, ClientFileRegisterView
+from .views.clients_view import ClientRegisterView, ClientContactRegisterView, ClientFileDetailView, ClientFileRegisterView, ClientDeleteView, ClientContactDeleteView, ClientFileDeleteView
 
 app_name = "clients"
 
@@ -16,5 +16,8 @@ urlpatterns = [
     path('<int:pk>/contact/add', ClientContactRegisterView.as_view(), name='clients_contact_add'),
     path('file/detail/<pk>', ClientFileDetailView.as_view(), name='clients_files_detail'),
     path('<int:pk>/file/add', ClientFileRegisterView.as_view(), name='clients_files_add'),
+    path('<int:pk>/client/delete', ClientDeleteView.as_view(), name='clients_delete'),
+    path('<int:pk>/contact/delete', ClientContactDeleteView.as_view(), name='clients_contact_delete'),
+    path('<int:pk>/file/delete', ClientFileDeleteView.as_view(), name='clients_file_delete'),
 
 ]
