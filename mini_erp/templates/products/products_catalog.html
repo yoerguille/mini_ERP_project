@@ -1,0 +1,23 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} Productos {% endblock %}
+
+{% block contenido %}
+        <div class="container">
+            <h1>{% block h1 %} Catálogo de Productos {% endblock %}</h1>
+            <ul>
+                {% for object in products %}
+                    <li>
+                        <img src="{{ object.image.url }}" alt="" width=200>
+                        <p>{{ object }}</p>
+                        
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <p><a href="{% url 'home' %}">Volver a la Home</a></p>
+        </div>
+
+        
+       
+{% endblock %}
