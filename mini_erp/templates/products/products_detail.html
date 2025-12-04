@@ -1,0 +1,60 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} {{object.model}} {% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <h2>{% block h1 %}{{ object.model}}{% endblock %}</h2>
+        <div class="col-md-6">
+            <img src="{{ object.image.url}}" alt="">
+        </div>
+        <div class="col-md-6">
+            <div class="mb-a">{{ product.model_name }}
+                <p><strong>Modelo: </strong> {{ object.model}}</p>
+                <p><strong>Tipo de Prenda: </strong> {{ object.type}}</p>
+                <p><strong>SKU: </strong> {{ object.sku}}</p>
+                <p><strong>Print: </strong> {{ object.allowed_print}}</p>
+
+                <hr>
+
+            <h4>Variantes disponibles</h4>
+
+            {% if object.variants.all %}
+                <table class="table table-bordered mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Color</th>
+                            <th>Talla</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for variant in object.variants.all %}
+                        <tr>
+                            <td>{{ variant.color }}</td>
+                            <td>{{ variant.size }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            </div>
+        </div>
+        
+
+        
+    </div>
+    
+    
+    
+
+
+    <hr>
+    <p><a href="{% url 'products:products_catalog' %}">Volver a Catálogo</a></p>
+</div>
+
+{% endblock %}
+

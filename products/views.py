@@ -8,3 +8,10 @@ class ProductCatalogView(ListView):
     template_name = 'products/products_catalog.html'
     ordering = ["model"]
     context_object_name = 'products'
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'products/products_detail.html'
+
+
+    

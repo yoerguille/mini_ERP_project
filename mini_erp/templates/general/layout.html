@@ -6,6 +6,8 @@
     <title>{% block head_title %}Layout{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+
+<header>{% include "_includes/_header.html" %} </header>
    
 <body>
     
@@ -13,7 +15,6 @@
     {% block contenido %}
         <div class="container">
             
-             <h1>{% block h1 %}Este es el Layout{% endblock %}</h1>
              <p>Aqui va el contenido de Layout</p>
 
         </div>
