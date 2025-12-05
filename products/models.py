@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 
 # Create your models here.
 class Product(models.Model):
@@ -41,6 +42,18 @@ class Product(models.Model):
         null=True,
     )
 
+    model_url = models.URLField(
+        blank=True,
+        null= True,
+    )
+
+    cost_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,6 +66,12 @@ class Product(models.Model):
         parts = [self.type]
         parts.append(self.model)
         return " - ".join(parts)
+    
+    def price_20(self):
+        return round(self.cost_price * Decimal(1.20), 2)
+    
+    def price_25(self):
+        return round(self.cost_price * Decimal(1.25), 2)
 
 
 class ProductVariant(models.Model):

@@ -24,6 +24,8 @@ class ProductAdmin(admin.ModelAdmin):
         'image',
         'created_at',
         'updated_at',
+        'model_url',
+        'cost_price',
     ]
 
     search_fields=(
