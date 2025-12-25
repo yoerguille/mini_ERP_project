@@ -4,8 +4,21 @@
 
 {% block contenido %}
             
-             <div class="container">
-                <h2>Bienvenido a la Home</h2>
-             </div
+   <div class="container">
+      <section>
+         <h2>Bienvenido a la Home</h2>
+            <div class="row">
+                {% for order in important_orders %}
+                
+                    {% include "_includes/_orders/_order_card.html" %}
+                
+                {% endfor %}
+            </div>
+      </section>
+      
+   </div
+
+
+      
        
 {% endblock %}

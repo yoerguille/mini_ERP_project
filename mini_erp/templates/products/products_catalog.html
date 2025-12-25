@@ -22,11 +22,11 @@
                                 </div>
 
                                 <div class="card-body p-4">
-                                    <h5 class="card-title mb-3 fw-bold">{{ object.model_name }}</h5>
+                                    <h5 class="card-title mb-3 fw-bold">{{ object }}</h5>
                                     <p class="card-text text-muted mb-4">{{ object.sku }}</p>
 
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="price">$299.99</span>
+                                        <span class="price"><cite> Precio Proveedor -</cite> {{ object.cost_price }} €</span>
                                         <button class="btn btn-custom text-white px-4 py-2 rounded-pill">
                                             Add to Cart
                                         </button>
