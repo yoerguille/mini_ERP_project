@@ -5,15 +5,32 @@
 {% block contenido %}
             
    <div class="container">
+      
       <section>
-         <h2>Bienvenido a la Home</h2>
+         
             <div class="row">
-                {% for order in important_orders %}
+               <div class="col-md-6">
+                  <h3 class="mb-3">Encargos</h3>
+                  {% for order in important_orders %}
                 
-                    {% include "_includes/_orders/_order_card.html" %}
+                     {% include "_includes/_orders/_order_card.html" %}
                 
-                {% endfor %}
+                  {% endfor %}
+               </div>
+
+               <div class="col-md-6">
+                  <h3 class="mb-3">Mostrador</h3>
+                  {% for order in counter_orders %}
+                
+                     {% include "_includes/_orders/_order_card.html" %}
+                
+                  {% endfor %}
+               </div>
+                
             </div>
+            
+               
+            
       </section>
       
    </div

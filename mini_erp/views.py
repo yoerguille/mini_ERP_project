@@ -43,6 +43,6 @@ class home_view(TemplateView):
 
         context['important_orders'] = important_orders
         context['counter_orders'] = counter_orders
-
+ 
         return context
     

@@ -51,6 +51,12 @@ class Order(models.Model):
     def __str__(self):
         return f"Pedido #{self.pk} - {self.client.name} "
     
+    def total_price(self):
+        return sum(
+            item.unit_price * item.quantity 
+            for item in self.items.all()
+        )
+    
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
@@ -83,9 +89,6 @@ class OrderItem(models.Model):
         blank=True,
     )
 
-    def total_price(self):
-        return self.unit_price * self.quantity
-    
     def total_price_with_vat(self, vat=0.21):
         return self.total_price() * (1+vat)
     
