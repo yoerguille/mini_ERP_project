@@ -3,37 +3,41 @@
 {% block head_title %} Bienvenido a la Home {% endblock %}
 
 {% block contenido %}
-            
-   <div class="container">
-      
-      <section>
-         
-            <div class="row">
-               <div class="col-md-6">
-                  <h3 class="mb-3">Encargos</h3>
-                  {% for order in important_orders %}
-                
-                     {% include "_includes/_orders/_order_card.html" %}
-                
-                  {% endfor %}
-               </div>
 
-               <div class="col-md-6">
-                  <h3 class="mb-3">Mostrador</h3>
-                  {% for order in counter_orders %}
-                
-                     {% include "_includes/_orders/_order_card.html" %}
-                
-                  {% endfor %}
-               </div>
-                
-            </div>
+   {% if request.user.is_authenticated %}
             
-               
-            
-      </section>
+      <div class="container">
+      {% include "_includes/_messages.html" %}
       
-   </div
+         <section>
+            
+               <div class="row">
+                  <div class="col-md-6">
+                     <h3 class="mb-3">Encargos</h3>
+                     {% for order in important_orders %}
+                  
+                        {% include "_includes/_orders/_order_card.html" %}
+                  
+                     {% endfor %}
+                  </div>
+
+                  <div class="col-md-6">
+                     <h3 class="mb-3">Mostrador</h3>
+                     {% for order in counter_orders %}
+                  
+                        {% include "_includes/_orders/_order_card.html" %}
+                  
+                     {% endfor %}
+                  </div>
+                  
+               </div>
+               
+                  
+               
+         </section>
+      
+      </div
+   {% endif %}  
 
 
       
