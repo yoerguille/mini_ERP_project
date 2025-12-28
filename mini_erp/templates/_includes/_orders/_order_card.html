@@ -14,7 +14,11 @@
     <div class="card-body">
         <h5 class="card-title">{{ order.title }}</h5>
         <p class="card-text">
-            <strong>Estado:</strong> {{ order.get_status_display }}<br>
+            <strong>Estado:</strong> 
+            <span class="badge bg-{{ order.status_color }}">
+                {{ order.get_status_display }}
+            </span>
+            <br>
             <strong>Fecha límite:</strong> 
             {% if order.delivery_date %}{{ order.delivery_date|date:"d/m/Y" }}{% else %}Sin definir{% endif %}
         </p>

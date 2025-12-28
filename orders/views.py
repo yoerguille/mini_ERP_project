@@ -6,7 +6,7 @@ from .models import Order, OrderItem
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'orders/order_detail.html'
-
+    
     
 
     

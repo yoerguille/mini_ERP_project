@@ -56,7 +56,16 @@ class Order(models.Model):
             item.unit_price * item.quantity 
             for item in self.items.all()
         )
-    
+    def status_color(self):
+        return {
+            self.OrderStatus.RECEIVED: 'secondary',
+            self.OrderStatus.PENDING_DESIGN: 'warning',
+            self.OrderStatus.DESIGN_READY: 'info',
+            self.OrderStatus.IN_PRODUCTION: 'primary',
+            self.OrderStatus.COMPLETED: 'succes,',
+            self.OrderStatus.DELIVERED: 'dark',
+            self.OrderStatus.CANCELLED: 'danger',
+        }.get(self.status, 'secondary')
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
@@ -88,6 +97,12 @@ class OrderItem(models.Model):
         max_length=255,
         blank=True,
     )
+
+    def total_price(self):
+        return sum(
+            self.unit_price * self.quantity 
+            for item in self.items.all()
+        )
 
     def total_price_with_vat(self, vat=0.21):
         return self.total_price() * (1+vat)

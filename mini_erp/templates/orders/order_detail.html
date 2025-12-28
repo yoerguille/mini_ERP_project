@@ -18,9 +18,31 @@
                 <div class="project-info-box">
                     <p><b>Cliente: </b>{{ object.client }}</p>
                     <p><b>Fecha de Creación: </b> {{ object.created_at }}</p>
-                    <p><b>Estado: </b> {{ object.status }}</p>
+                    <p>
+                        <b>Estado: </b>
+                        <span class="badge bg-{{ object.status_color }}">
+                            {{ object.get_status_display }}
+                        </span>
+                    </p>
                     <p><b>Fecha de entrega: </b> {{ object.delivery_date }}</p>
-                    <p class="mb-0"><b>Precio Total:</b> {{ object.total_price }}€ + IVA</p>
+                    
+                    {% if object.items.exists %}
+                        <p><b>Número de items:</b> {{ object.items.count }}</p>
+
+                        <ul>
+                            {% for item in object.items.all %}
+                                <li>
+                                    {{ item.quantity }} × {{ item.product.model }}
+                                    ({{ item.variant }}) —
+                                    {{ item.unit_price }} €
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p class="mb-0"><b>Precio Total:</b> {{ object.total_price }}€ + IVA</p>
+                        <p class="mb-0"><b>Total a Pagar:</b> {{ object.items.total_price_with_vat }}€ IVA incl.</p>
+                    {% else %}
+                        <p>El pedido no tiene orderitems</p>
+                    {% endif %}
                     
                 </div><!-- / project-info-box -->
 
