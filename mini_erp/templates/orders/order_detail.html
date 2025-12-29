@@ -54,7 +54,9 @@
                         <a href="#x" class="btn btn-xs btn-pinterest btn-circle btn-icon mr-5 mb-0"><i class="fab fa-pinterest"></i></a>
                         <a href="#x" class="btn btn-xs btn-linkedin btn-circle btn-icon mr-5 mb-0"><i class="fab fa-linkedin-in"></i></a>
                     </p>
-                    <p><a href="{% url 'home' %}">Volver atrás</a></p>
+                    <p><a href="{% url 'orders:orders' %}">Volver atrás </a></p>
+                    <p><a href="{% url 'orders:order_delete' object.pk %}">Eliminar Encargo</a></p>
+                    <p><a href="{% url 'orders:order_update' object.pk %}">Editar Encargo</a></p>
                 </div><!-- / project-info-box -->
             </div><!-- / column -->
 

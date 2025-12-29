@@ -1,0 +1,28 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} OrderItem{% endblock %}
+
+{% block h1 %} Items del Encargo {% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <h1>Rellena los siguientes campos</h1>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    {{ form.product|as_crispy_field}}
+                    {{ form.variant|as_crispy_field}}
+                    {{ form.quantity|as_crispy_field}}
+                    {{ form.unit_price|as_crispy_field}}
+                    {{ form.notes|as_crispy_field}}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+            <button class= "btn btn-secondary">Guardar</button>
+        </form>
+        <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>
+    </div>
+{% endblock %}
