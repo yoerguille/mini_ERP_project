@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Order, OrderItem
 from mini_erp.forms import OrderForm, OrderItemForm
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
+from django.contrib import messages
 
 # Create your views here.
 class OrderDetailView(DetailView):
@@ -36,6 +38,27 @@ class OrderItemCreateView(CreateView):
     template_name = 'orders/order_item.html'
     form_class = OrderItemForm
     success_url = reverse_lazy('orders:orders')
+
+    def form_valid(self, form):
+        order = Order.objects.get(pk=self.kwargs['pk'])
+
+        item = form.save(commit=False)
+        item.order = order
+        item.save()
+
+        messages.add_message(self.request, messages.SUCCESS, f"¡{item} añadido exitosamente al encargo!")
+
+        return redirect('orders:order_item', order.pk)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = Order.objects.get(pk=self.kwargs['pk'])
+        context["order"] = order
+        context["items"] = order.items.all()
+        return context
+    
+    
+    
 
 class OrderCreateView(CreateView):
     model = Order

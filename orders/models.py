@@ -1,6 +1,7 @@
 from django.db import models
 from clients.models import Client
 from products.models import Product, ProductVariant
+from decimal import Decimal, ROUND_HALF_UP
 
 # Create your models here.
 class Order(models.Model):
@@ -56,6 +57,13 @@ class Order(models.Model):
             item.unit_price * item.quantity 
             for item in self.items.all()
         )
+    
+    def total_price_with_vat(self):
+        return (self.total_price() * Decimal(1.21)).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_UP
+        )
+    
     def status_color(self):
         return {
             self.OrderStatus.RECEIVED: 'secondary',
@@ -99,11 +107,8 @@ class OrderItem(models.Model):
     )
 
     def total_price(self):
-        return sum(
-            self.unit_price * self.quantity 
-            for item in self.items.all()
-        )
-
+        return self.unit_price * self.quantity
+    
     def total_price_with_vat(self, vat=0.21):
         return self.total_price() * (1+vat)
     

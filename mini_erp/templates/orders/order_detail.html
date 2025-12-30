@@ -39,7 +39,7 @@
                             {% endfor %}
                         </ul>
                         <p class="mb-0"><b>Precio Total:</b> {{ object.total_price }}€ + IVA</p>
-                        <p class="mb-0"><b>Total a Pagar:</b> {{ object.items.total_price_with_vat }}€ IVA incl.</p>
+                        <p class="mb-0"><b>Total a Pagar:</b> {{ object.total_price_with_vat }}€ IVA incl.</p>
                     {% else %}
                         <p>El pedido no tiene orderitems</p>
                     {% endif %}
