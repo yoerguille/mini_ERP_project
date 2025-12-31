@@ -3,14 +3,28 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Order, OrderItem
 from mini_erp.forms import OrderForm, OrderItemForm
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
+class ChangeStatusView(View):
+    def post(self, request, pk, status):
+        order = get_object_or_404(Order, pk=pk)
+        order.status = status
+        order.save()
+
+        return redirect('orders:order_detail', order.pk)
+
+@method_decorator(login_required, name='dispatch')
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'orders/order_detail.html'
 
+@method_decorator(login_required, name='dispatch')
 class OrderUpdateView(UpdateView):
     model = Order
     template_name = 'orders/order_update.html'
@@ -28,11 +42,13 @@ class OrderUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('orders:order_detail', args=[self.object.pk])
 
+@method_decorator(login_required, name='dispatch')
 class OrderDeleteView(DeleteView):
     model = Order
     template_name = 'orders/order_delete.html'
     success_url = reverse_lazy('orders:orders')
 
+@method_decorator(login_required, name='dispatch')
 class OrderItemCreateView(CreateView):
     model = OrderItemForm
     template_name = 'orders/order_item.html'
@@ -59,7 +75,7 @@ class OrderItemCreateView(CreateView):
     
     
     
-
+@method_decorator(login_required, name='dispatch')
 class OrderCreateView(CreateView):
     model = Order
     template_name = 'orders/order_create.html'
@@ -68,6 +84,7 @@ class OrderCreateView(CreateView):
     def get_success_url(self):
         return reverse('orders:order_item', args=[self.object.pk])
 
+@method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):
     model = Order
     template_name = 'orders/orders.html'

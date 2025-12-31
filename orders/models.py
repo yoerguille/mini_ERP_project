@@ -10,7 +10,7 @@ class Order(models.Model):
         PENDING_DESIGN = "PENDING_DESIGN", "Pendiente de diseño"
         DESIGN_READY = "DESIGN_READY", "Diseño confirmado"
         IN_PRODUCTION = "IN_PRODUCTION", "En producción"
-        COMPLETED = "COMPLETED", "Terminado"
+        COMPLETED = "COMPLETED", "Completado"
         DELIVERED = "DELIVERED", "Entregado"
         CANCELLED = "CANCELLED", "Cancelado"
 
@@ -70,7 +70,7 @@ class Order(models.Model):
             self.OrderStatus.PENDING_DESIGN: 'warning',
             self.OrderStatus.DESIGN_READY: 'info',
             self.OrderStatus.IN_PRODUCTION: 'primary',
-            self.OrderStatus.COMPLETED: 'succes,',
+            self.OrderStatus.COMPLETED: 'success',
             self.OrderStatus.DELIVERED: 'dark',
             self.OrderStatus.CANCELLED: 'danger',
         }.get(self.status, 'secondary')

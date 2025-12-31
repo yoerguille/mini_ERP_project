@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Product, ProductVariant
 from decimal import Decimal
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
 class ProductCatalogView(ListView):
     model= Product
     template_name = 'products/products_catalog.html'
@@ -12,7 +15,7 @@ class ProductCatalogView(ListView):
 
     
     
-
+@method_decorator(login_required, name='dispatch')
 class ProductDetail(DetailView):
     model = Product
     template_name = 'products/products_detail.html'

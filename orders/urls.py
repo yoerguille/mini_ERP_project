@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import OrderDetailView, OrderListView, OrderCreateView, OrderItemCreateView, OrderDeleteView, OrderUpdateView
+from .views import OrderDetailView, OrderListView, OrderCreateView, OrderItemCreateView, OrderDeleteView, OrderUpdateView, ChangeStatusView
 
 app_name = 'orders'
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('update/<pk>', OrderUpdateView.as_view(), name='order_update'),
     path('items_create/<pk>', OrderItemCreateView.as_view(), name='order_item'),
     path('items_delete/<pk>', OrderDeleteView.as_view(), name='order_delete'),
+    path('<int:pk>/status/<str:status>', ChangeStatusView.as_view(), name='change_status'),
 ]

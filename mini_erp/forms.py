@@ -38,6 +38,15 @@ class OrderForm(forms.ModelForm):
             'delivery_date',
         ]
 
+        widgets = {
+            'delivery_date' : forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'class': 'form-control'
+                }
+            )
+        }
+
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem

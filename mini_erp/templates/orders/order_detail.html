@@ -22,9 +22,53 @@
                         <b>Estado: </b>
                         <span class="badge bg-{{ object.status_color }}">
                             {{ object.get_status_display }}
-                        </span>
-                    </p>
-                    <p><b>Fecha de entrega: </b> {{ object.delivery_date }}</p>
+                        </span>  
+                    </p>    
+                        <b>Cambiar Estado: </b>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'PENDING_DESIGN' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-warning btn-sm">
+                                    Pendiente de diseño
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'DESIGN_READY' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-info btn-sm">
+                                    Diseño confirmado
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'IN_PRODUCTION' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-primary btn-sm">
+                                    En producción
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'COMPLETED' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-success btn-sm">
+                                    Completado
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'DELIVERED' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-dark btn-sm">
+                                    Entregado
+                            </button>
+                        </form>
+
+                        <form method="post" action="{% url 'orders:change_status' object.pk 'CANCELLED' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm">
+                                    Cancelado
+                            </button>
+                        </form>
+                    
+                    <p><b class="md-3">Fecha de entrega: </b> {{ object.delivery_date }}</p>
                     
                     {% if object.items.exists %}
                         <p><b>Número de items:</b> {{ object.items.count }}</p>
