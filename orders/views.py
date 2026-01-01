@@ -88,44 +88,48 @@ class OrderCreateView(CreateView):
 class OrderListView(ListView):
     model = Order
     template_name = 'orders/orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        qs = Order.objects.select_related('client')
+        search = self.request.GET.get('q')
+        if search:
+            qs = qs.filter(title__icontains = search)
+
+        client = self.request.GET.get('client')
+        if client:
+            qs = qs.filter(client__id=client)
+
+        status = self.request.GET.get('status')
+        if status:
+            qs = qs.filter(status=status)
+
+        created_from = self.request.GET.get('created_from')
+        if created_from:
+            qs = qs.filter(created_at__date__gte=created_from)
+
+        created_to = self.request.GET.get('created_to')
+        if created_to:
+            qs= qs.filter(created_at__date__lte=created_to)
+
+        delivery_from = self.request.GET.get('delivery_from')
+        if delivery_from:
+            qs = qs.filter(delivery_date__gte=delivery_from)
+
+        delivery_to = self.request.GET.get("delivery_to")
+        if delivery_to :
+            qs = qs.filter(delivery_date__lte=delivery_to)
+
+        return qs.order_by("-created_at")
+
+
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        search = self.request.GET.get('q')
-        order_by_delivery = self.request.GET.get('order') == 'delivery'
-
-        important_orders = Order.objects.filter(order_type='LARGE')
-        counter_orders = Order.objects.filter(order_type='SMALL')
-
-        if search:
-            important_orders = important_orders.filter(
-                client__name__icontains=search
-            )
-
-            counter_orders = counter_orders.filter(
-                client__name__icontains=search
-            )
-
-        if order_by_delivery:
-            important_orders = important_orders.order_by(
-                'delivery_date'
-            )
-
-            counter_orders = counter_orders.order_by(
-                'delivery_date'
-            )
-        else:
-            important_orders = important_orders.order_by(
-                '-created_at'
-            )
-
-            counter_orders = counter_orders.order_by(
-                '-created_at'
-            )
-
-        context['important_orders'] = important_orders
-        context['counter_orders'] = counter_orders
+        context["clients"] = Order._meta.get_field("client").remote_field.model.objects.all()
+        context['status'] = Order.OrderStatus.choices
  
         return context
     

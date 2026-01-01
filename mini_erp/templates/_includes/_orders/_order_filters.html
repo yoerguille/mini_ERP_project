@@ -1,0 +1,58 @@
+<form method="get" class="row g-2 mb-4">
+
+    <!-- Cliente -->
+    <div class="col-md-3">
+        <p>Cliente</p>
+        <select name="client" class="form-select">
+            <option value="">Todos los clientes</option>
+            {% for client in clients %}
+                <option value="{{ client.id }}"
+                    {% if request.GET.client == client.id|stringformat:"s" %}selected{% endif %}
+                >
+                    {{ client.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-md-3">
+        
+        <select name="status" class="form-select">
+            <option value="">Todos los estados</option>
+            {% for value, label in status %}
+                <option value="{{ value }}"
+                    {% if request.GET.status == value %}selected{% endif %}
+                >
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Fecha creación -->
+    <div class="col-md-2">
+        <p>Fecha de creación</p>
+        <input type="date" name="created_from"
+               value="{{ request.GET.created_from }}"
+               class="form-control"
+               placeholder="Creado desde">
+    </div>
+
+    <div class="col-md-2">
+        <p>Fecha de creación</p>
+        <input type="date" name="created_to"
+               value="{{ request.GET.created_to }}"
+               class="form-control"
+               placeholder="Creado hasta">
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Filtrar</button>
+    </div>
+
+    <a href="{% url 'orders:orders' %}" class="btn btn-outline-secondary">
+    Limpiar filtros
+    </a>
+
+</form>
