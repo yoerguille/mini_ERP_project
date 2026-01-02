@@ -1,8 +1,16 @@
 <form method="get" class="row g-2 mb-4">
+    <!-- Barra de Búsqueda-->
+    <input
+        type="text"
+        name="q"
+        value="{{ request.GET.q }}"
+        placeholder="Buscar por nombre del encargo..."
+        class="form-control"
+    >
 
     <!-- Cliente -->
     <div class="col-md-3">
-        <p>Cliente</p>
+        
         <select name="client" class="form-select">
             <option value="">Todos los clientes</option>
             {% for client in clients %}
@@ -32,7 +40,6 @@
 
     <!-- Fecha creación -->
     <div class="col-md-2">
-        <p>Fecha de creación</p>
         <input type="date" name="created_from"
                value="{{ request.GET.created_from }}"
                class="form-control"
@@ -40,7 +47,6 @@
     </div>
 
     <div class="col-md-2">
-        <p>Fecha de creación</p>
         <input type="date" name="created_to"
                value="{{ request.GET.created_to }}"
                class="form-control"
