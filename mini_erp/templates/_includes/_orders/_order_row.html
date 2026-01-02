@@ -1,5 +1,7 @@
 
 <div class="order-row d-flex align-items-center p-3 mb-2 shadow-sm border rounded">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
 
     <!-- Cliente -->
     <div class="col-2 fw-bold">
@@ -39,7 +41,7 @@
 
     <!-- Total + acción -->
     <div class="col-1 text-end">
-        <div class="fw-bold">{{ order.total_price }} € +IVA</div>
+        <div class="order-price fw-bold">{{ order.total_price }} € +IVA</div>
         <a href="{% url 'orders:order_detail' order.pk %}"
            class="btn btn-sm btn-outline-primary mt-1">
             Ver

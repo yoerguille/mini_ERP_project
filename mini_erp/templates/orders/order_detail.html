@@ -4,9 +4,94 @@
 
 {% block contenido %}
 
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+
+<!--Header-->
+<div class="container">
+    <div class="order-header">
+        <h2>{{ object.title }}</h2>
+
+        <div class="order-meta">
+            <span class="badge status {{ object.status_color }}">
+                {{ object.get_status_display }}
+            </span>
+
+            <span class="order-delivery">
+                Entrega: {{ object.delivery_date|date:"d/m/Y" }}
+            </span>
+
+            <span class="order-total">
+                {{ object.total_price }} € + IVA
+            </span>
+        </div>
+    </div>
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+    <div class="order-info-grid">
+        <div class="info-card">
+            <strong>Cliente</strong>
+            <p>{{ object.client }}</p>
+        </div>
+
+        <div class="info-card">
+            <strong>Creado</strong>
+            <p>{{ object.created_at|date:"d/m/Y" }}</p>
+        </div>
+
+        <div class="info-card">
+            <strong>Tipo</strong>
+            <p>{{ object.get_order_type_display }}</p>
+        </div>
+    </div>
+</div>
+<!--Tabla de detalle de pedido-->
+<div class="container">
+    <table class="table order-items-table">
+    <thead>
+        <tr>
+            <th>Cant.</th>
+            <th>Producto</th>
+            <th>Variante</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in object.items.all %}
+        <tr>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.variant }}</td>
+            <td>{{ item.unit_price }} €</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <!--Botones de accion -->
+    <div class="order-actions">
+        <a href="{% url 'orders:order_update' object.pk %}" class="btn btn-outline-primary">
+            Editar
+        </a>
+
+        <a href="{% url 'orders:order_delete' object.pk %}" class="btn btn-outline-danger">
+            Eliminar
+        </a>
+
+        <a href="{% url 'home' %}" class="btn btn-link">
+            Volver
+        </a>
+    </div>
+</div>
+
+
+
+
+
+    
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-5">

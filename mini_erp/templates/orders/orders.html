@@ -7,6 +7,8 @@
             
       <div class="container">
       {% include "_includes/_messages.html" %}
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
       
          <section>
                <div class="row">
@@ -19,7 +21,7 @@
                   <div class="row g-3">
                      <h2>Ultimos Encargos</h2>
                      
-                        <h3 class="mb-3">Encargos</h3>
+                        <h3 class="mb-3"></h3>
                         {% for order in orders  %}
                            {% include "_includes/_orders/_order_row.html" %}
                        
