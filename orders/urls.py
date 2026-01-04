@@ -13,5 +13,5 @@ urlpatterns = [
     path('update/<pk>', OrderUpdateView.as_view(), name='order_update'),
     path('items_create/<pk>', OrderItemCreateView.as_view(), name='order_item'),
     path('items_delete/<pk>', OrderDeleteView.as_view(), name='order_delete'),
-    path('<int:pk>/status/<str:status>', ChangeStatusView.as_view(), name='change_status'),
+    path('/status/<pk>', ChangeStatusView.as_view(), name='change_status'),
 ]

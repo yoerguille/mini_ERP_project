@@ -12,10 +12,13 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
 class ChangeStatusView(View):
-    def post(self, request, pk, status):
+    def post(self, request, pk):
         order = get_object_or_404(Order, pk=pk)
-        order.status = status
-        order.save()
+        new_status = request.POST.get('status')
+        if new_status in Order.OrderStatus.values:
+            order.status = new_status
+            order.save()
+            
 
         return redirect('orders:order_detail', order.pk)
 

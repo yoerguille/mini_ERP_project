@@ -23,6 +23,26 @@
                 Entrega: {{ object.delivery_date|date:"d/m/Y" }}
             </span>
 
+            <span>
+                <form method="post" action="{% url 'orders:change_status' object.pk %}">
+                    {% csrf_token %}
+                    <select name="status" class="form-select w-auto" onchange="this.form.submit()">
+                        <option disabled selected>Cambiar Estado</option>
+                        <option value="PENDING_DESIGN">Pendiente de diseño</option>
+                        <option value="DESIGN_READY">Diseño confirmado</option>
+                        <option value="IN_PRODUCTION">En producción</option>
+                        <option value="COMPLETED">Completado</option>
+                        <option value="DELIVERED">Entregado</option>
+                        <option value="CANCELLED">Cancelado</option>
+                    </select>
+                </form>
+            </span>
+
+            
+            <span class="badge bg-{{ object.status_color }}">
+                {{ object.get_status_display }}
+            </span>
+
             <span class="order-total">
                 {{ object.total_price }} € + IVA
             </span>
@@ -111,46 +131,17 @@
                     </p>    
                         <b>Cambiar Estado: </b>
 
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'PENDING_DESIGN' %}">
+                        <form method="post" action="{% url 'orders:change_status' object.pk %}">
                             {% csrf_token %}
-                            <button class="btn btn-warning btn-sm">
-                                    Pendiente de diseño
-                            </button>
-                        </form>
-
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'DESIGN_READY' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-info btn-sm">
-                                    Diseño confirmado
-                            </button>
-                        </form>
-
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'IN_PRODUCTION' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-primary btn-sm">
-                                    En producción
-                            </button>
-                        </form>
-
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'COMPLETED' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-success btn-sm">
-                                    Completado
-                            </button>
-                        </form>
-
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'DELIVERED' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-dark btn-sm">
-                                    Entregado
-                            </button>
-                        </form>
-
-                        <form method="post" action="{% url 'orders:change_status' object.pk 'CANCELLED' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-danger btn-sm">
-                                    Cancelado
-                            </button>
+                            <select name="status" class="form-select w-auto" onchange="this.form.submit()">
+                                <option disabled selected>Cambiar Estado</option>
+                                <option value="PENDING_DESIGN">Pendiente de diseño</option>
+                                <option value="DESIGN_READY">Diseño confirmado</option>
+                                <option value="IN_PRODUCTION">En producción</option>
+                                <option value="COMPLETED">Completado</option>
+                                <option value="DELIVERED">Entregado</option>
+                                <option value="CANCELLED">Entregado</option>
+                            </select>
                         </form>
                     
                     <p><b class="md-3">Fecha de entrega: </b> {{ object.delivery_date }}</p>

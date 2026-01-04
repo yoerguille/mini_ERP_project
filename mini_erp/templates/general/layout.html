@@ -4,24 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block head_title %}Layout{% endblock %}</title>
+    {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
 </head>
 
 <header>{% include "_includes/_header.html" %} </header>
    
 <body>
     
-    
-
-    {% block contenido %}
-        <div class="container">
-            {% load static %}
-            
-             <p>Aqui va el contenido de Layout</p>
-
-        </div>
-       
-    {% endblock %}
+    {% load static %}
+    <main class="app-container">
+        {% block contenido %}{% endblock %}
+    </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
