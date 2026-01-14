@@ -44,6 +44,13 @@ class OrderUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('orders:order_detail', args=[self.object.pk])
+    
+class OrderItemDelete(DeleteView):
+    model = OrderItem
+    template_name = 'orders/order_item_delete.html'
+
+    def get_success_url(self):
+        return reverse('orders:order_detail', args=[self.object.order.pk])
 
 @method_decorator(login_required, name='dispatch')
 class OrderDeleteView(DeleteView):
@@ -75,6 +82,7 @@ class OrderItemCreateView(CreateView):
         context["order"] = order
         context["items"] = order.items.all()
         return context
+    
     
     
     
