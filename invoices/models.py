@@ -19,6 +19,7 @@ class Invoices(models.Model):
     client_name = models.CharField(max_length=150)
     cifnif = models.CharField(max_length=20)
     client_adress = models.CharField(max_length=150)
+    billing_email = models.EmailField(blank=True)
 
     invoice_number = models.CharField(
         max_length=30,
@@ -82,11 +83,9 @@ class InvoiceItem(models.Model):
         help_text='Precio unitario sin IVA'
     )
 
-    line_total = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        help_text='Total de la linea'
-    )
+    def total(self):
+        return self.quantity * self.unit_price
 
     def __str__(self):
         return f"{self.quantity} x {self.description}"
+    
