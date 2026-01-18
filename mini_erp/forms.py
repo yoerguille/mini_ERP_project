@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from clients.models import Client
 from orders.models import Order, OrderItem
-from invoices.models import Invoices
+from invoices.models import Invoices, InvoiceItem
 
 class AddClientForm(forms.ModelForm):
     password=forms.CharField(widget=forms.PasswordInput)
@@ -81,6 +81,16 @@ class InvoiceForm(forms.ModelForm):
             )
         }
 
+class InvoiceItemForm(forms.ModelForm):
+    class Meta:
+        model = InvoiceItem
+        fields = {
+            'description',
+            'quantity',
+            'unit_price',
+        }
+
+
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
@@ -91,6 +101,8 @@ class OrderItemForm(forms.ModelForm):
             'unit_price',
             'notes',
         ]
+
+    
 
 class RegisterForm(forms.ModelForm):
     password=forms.CharField(widget=forms.PasswordInput)

@@ -25,7 +25,29 @@
                     {{ form.errors }}
                     {{ form.non_field_errors }}
                 </div>
-            </div>
+
+                <div class="col-12 col-sm-6">
+                    {% if items %}
+                    <p><b>Artículos añadidos:</b></p>
+                    <ul>
+                        {% for item in items %}
+                        <li>
+                            {{item.product}}
+                            {{item.variant}}
+                            {{item.quantity}}
+                            {{item.unit_price}}
+                            {{item.notes}}
+                        </li>
+
+                        {% endfor %}
+                        <p class="mb-0"><b>Precio Total:</b> {{ order.total_price }}€ + IVA</p>
+                        <p class="mb-0"><b>Total a Pagar:</b> {{ order.total_price_with_vat }}€ IVA incl.</p>
+                    </ul>
+                    {% else %}
+                        <p>No hay artículos añadidos todavía</p>
+                      
+                    {% endif %}
+                </div>
             <button class= "btn btn-secondary">Guardar</button>
         </form>
         <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>

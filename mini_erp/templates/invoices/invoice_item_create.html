@@ -1,0 +1,103 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} InvoiceItem{% endblock %}
+
+{% block h1 %} Items de la factura {% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% include "_includes/_messages.html" %}
+        <h1>Rellena los siguientes campos</h1>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    {{ form.description|as_crispy_field}}
+                    {{ form.quantity|as_crispy_field}}
+                    {{ form.unit_price|as_crispy_field}}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                </div>
+                <div class="col-12 col-sm-6">
+                    {% if items %}
+                    <p><b>Artículos del pedido:</b></p>
+                    <ul>
+                        
+                        <table class="table order-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Cant.</th>
+                                    <th>Producto</th>
+                                    <th>Variante</th>
+                                    <th>Precio</th>
+                                    <th>--</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.product }}</td>
+                                    <td>{{ item.variant }}</td>
+                                    <td>{{ item.unit_price }} €</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        
+                        <p class="mb-0"><b>Precio Total:</b> {{ order.total_price }}€ + IVA</p>
+                        <p class="mb-0"><b>Total a Pagar:</b> {{ order.total_price_with_vat }}€ IVA incl.</p>
+                    </ul>
+                        
+                    {% else %}
+                        <p>No hay artículos añadidos todavía</p>
+                      
+                    {% endif %}
+
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    {% if invoice_items %}
+                    <p><b>Artículos Facturados:</b></p>
+                        
+                            <table class="table order-items-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cant.</th>
+                                        <th>Concepto</th>
+                                        <th>Precio</th>
+                                        <th>Total Line</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in invoice_items %}
+                                    <tr>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.description }}</td>
+                                        <td>{{ item.unit_price }}</td>
+                                        <td>{{ item.total }} €</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                        </table>
+                          
+                        
+                      
+                    {% endif %}
+                </div>
+
+            </div>
+            <button class= "btn btn-secondary">Guardar</button>
+        </form>
+        {% if items %} 
+            <p><a href="{% url 'orders:orders' %}">Listo!</a></p>
+        {% else %}
+            <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>
+        {% endif %}
+        
+    </div>
+{% endblock %}
