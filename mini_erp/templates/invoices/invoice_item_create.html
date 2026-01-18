@@ -84,8 +84,10 @@
                                     {% endfor %}
                                 </tbody>
                         </table>
-                          
                         
+                    <p class="mb-0"><b>Base Imponible:</b> {{ invoice.base_amount }}€ </p>
+                    <p class="mb-0"><b>IVA:</b> {{ invoice.vat_amount}}€</p>
+                    <p class="mb-0"><b>Importe Total:</b> {{ invoice.total_with_vat}}€ IVA incl.</p>
                       
                     {% endif %}
                 </div>

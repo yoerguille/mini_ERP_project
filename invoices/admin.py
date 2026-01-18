@@ -26,9 +26,6 @@ class InvoiceAdmin(admin.ModelAdmin):
         'invoice_number',
         'issue_date',
         'due_date',
-        'base_amount',
-        'vat_amount',
-        'total_amount',
         'status',
         'created_at'
     ]
@@ -40,9 +37,6 @@ class InvoiceAdmin(admin.ModelAdmin):
         'invoice_number',
         'issue_date',
         'due_date',
-        'base_amount',
-        'vat_amount',
-        'total_amount',
         'status',
         'created_at'
     )

@@ -1,5 +1,6 @@
 from django.db import models
 from orders.models import Order
+from decimal import Decimal, ROUND_HALF_UP
 
 # Create your models here.
 
@@ -31,24 +32,6 @@ class Invoices(models.Model):
         blank=True,
     )
 
-    base_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        help_text='Base imponible'
-    )
-
-    vat_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        help_text='IVA total'
-    )
-
-    total_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        help_text='Importe total'
-    )
-
     status = models.CharField(
         verbose_name='Estado',
         choices=InvoiceStatus.choices,
@@ -62,6 +45,21 @@ class Invoices(models.Model):
 
     def __str__(self):
         return f"Factura - {self.invoice_number}"
+    
+    def base_amount(self):
+        return sum(
+            item.unit_price * item.quantity 
+            for item in self.items.all()
+        )
+    
+    def vat_amount(self):
+        return (self.base_amount() * Decimal(0.21)).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_UP
+        )
+    
+    def total_with_vat(self):
+        return(self.base_amount() + self.vat_amount())
     
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(

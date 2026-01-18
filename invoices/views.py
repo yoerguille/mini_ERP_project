@@ -10,8 +10,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Invoices, InvoiceItem
 from orders.models import Order
+from django.utils.timezone import now
+from decimal import Decimal, ROUND_HALF_UP
 
 # Create your views here.
+
+
 
 class InvoiceCreateView(CreateView):
     model = Invoices
@@ -33,18 +37,7 @@ class InvoiceCreateView(CreateView):
 
         return redirect('invoices:create_item_invoice', invoice.pk)
     
-    def get_initial(self):
-        initial = super().get_initial()
-        order = Order.objects.get(pk=self.kwargs['pk'])
-        client = order.client
-
-        initial['client_name'] = client.name
-        initial['cifnif'] = client.cif_nif
-        initial['client_adress'] = client.direccion
-        initial['billing_email'] = client.email
-        
-
-        return initial
+ 
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,6 +45,42 @@ class InvoiceCreateView(CreateView):
         context["order"] = order
         context["items"] = order.items.all()
         return context
+    
+    def create_invoice_number(self):
+        year = now().year
+
+        last_invoice = (Invoices.objects.filter(
+            invoice_number__startswith=str(year))
+            .order_by("-invoice_number")
+            .first()
+        )
+
+        if last_invoice and last_invoice.invoice_number:
+            last_number = int(last_invoice.invoice_number.split("-")[1])
+        else:
+            last_number = 0
+
+        new_number = last_number + 1
+
+        return f"{year}-{new_number:05d}"
+
+
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        order = Order.objects.get(pk=self.kwargs['pk'])
+        client = order.client
+        n_invoice = self.create_invoice_number()
+
+        initial['client_name'] = client.name
+        initial['cifnif'] = client.cif_nif
+        initial['client_adress'] = client.direccion
+        initial['billing_email'] = client.email
+        initial['invoice_number'] = n_invoice
+
+        return initial
+    
+    
     
 @method_decorator(login_required, name='dispatch')
 class InvoiceItemCreateView(CreateView):
@@ -75,6 +104,8 @@ class InvoiceItemCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         invoice = Invoices.objects.get(pk=self.kwargs['pk'])
         order = invoice.order
+
+
         context["invoice"] = invoice
         context["invoice_items"] = invoice.items.all()
         context['items'] = invoice.order.items.all()
