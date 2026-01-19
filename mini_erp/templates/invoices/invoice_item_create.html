@@ -95,7 +95,7 @@
             <button class= "btn btn-secondary">Guardar</button>
         </form>
         {% if items %} 
-            <p><a href="{% url 'orders:orders' %}">Listo!</a></p>
+            <p><a href="{% url 'invoices:invoice_detail' invoice.pk %}">Listo!</a></p>
         {% else %}
             <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>
         {% endif %}

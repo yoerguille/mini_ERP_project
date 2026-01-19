@@ -16,6 +16,10 @@ from datetime import date, timedelta
 
 # Create your views here.
 
+class InvoiceDetailView(DetailView):
+    model = Invoices
+    template_name = 'invoices/invoice_detail.html'
+
 
 
 class InvoiceCreateView(CreateView):
