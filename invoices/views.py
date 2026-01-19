@@ -9,9 +9,10 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Invoices, InvoiceItem
-from orders.models import Order
+from orders.models import Order, OrderItem
 from django.utils.timezone import now
 from decimal import Decimal, ROUND_HALF_UP
+from datetime import date, timedelta
 
 # Create your views here.
 
@@ -64,6 +65,11 @@ class InvoiceCreateView(CreateView):
 
         return f"{year}-{new_number:05d}"
 
+    def get_due_date(self):
+        today = date.today()
+        due_date = today + timedelta(days=30)
+
+        return due_date
 
     
     def get_initial(self):
@@ -77,6 +83,8 @@ class InvoiceCreateView(CreateView):
         initial['client_adress'] = client.direccion
         initial['billing_email'] = client.email
         initial['invoice_number'] = n_invoice
+        initial['issue_date'] = date.today()
+        initial['due_date'] = self.get_due_date()
 
         return initial
     

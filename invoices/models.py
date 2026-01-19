@@ -71,14 +71,21 @@ class InvoiceItem(models.Model):
     description = models.CharField(
         help_text='Concepto facturado',
         max_length=255,
+        blank=True,
+        null=True,
     )
 
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+    )
 
     unit_price= models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        help_text='Precio unitario sin IVA'
+        help_text='Precio unitario sin IVA',
+        blank=True,
+        null=True,
     )
 
     def total(self):
