@@ -43,8 +43,9 @@
                 <div class="card-body">
                     <h6 class="text-uppercase text-muted">Datos de facturación</h6>
                     <p class="mb-1"><strong>{{ object.client_name }}</strong></p>
-                    <p class="mb-1">{{ object.client_address }}</p>
-                    <p class="mb-1">{{ object.client_tax_id }}</p>
+                    <p class="mb-1">{{ object.client_adress }}</p>
+                    <p class="mb-1">{{ object.cifnif }}</p>
+                    <p class="mb-1">{{ object.billing_email }}</p>
                 </div>
             </div>
         </div>
@@ -108,7 +109,7 @@
                         <strong>{{ object.base_amount }} €</strong>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span>IVA ({{ object.vat_rate }}%)</span>
+                        <span>IVA (21%)</span>
                         <strong>{{ object.vat_amount }} €</strong>
                     </div>
                     <hr>

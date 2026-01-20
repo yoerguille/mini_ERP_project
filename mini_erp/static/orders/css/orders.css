@@ -72,3 +72,24 @@
 body {
     background-color: #f3f4f6;
 }
+
+.invoice-header {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1.5rem;
+}
+
+.order-items-panel {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.invoice-summary {
+  background: #fff;
+  border-top: 2px solid #eee;
+  padding-top: 1rem;
+}
+
+.totals h4 {
+  color: #198754; /* verde bootstrap */
+}

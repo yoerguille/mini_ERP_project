@@ -16,6 +16,13 @@ from datetime import date, timedelta
 
 # Create your views here.
 
+@method_decorator(login_required, name='dispatch')
+class InvoiceListView(ListView):
+    model = Invoices
+    template_name = 'invoices/invoices_list.html'
+    context_object_name = 'invoices'
+    
+
 class InvoiceDetailView(DetailView):
     model = Invoices
     template_name = 'invoices/invoice_detail.html'
