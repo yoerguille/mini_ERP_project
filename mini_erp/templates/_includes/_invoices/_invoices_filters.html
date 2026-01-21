@@ -1,0 +1,56 @@
+<form method="get" class="row g-2 mb-4">
+    <input 
+        type="text"
+        name="q"
+        value="{{ request.GET.q }}"
+        placeholder="Buscar por el nombre del Encargo"
+        class="form-control"
+    >
+
+    <input 
+        type="text"
+        name="p"
+        value="{{ request.GET.p }}"
+        placeholder="Buscar por nombre de Cliente"
+        class="form-control"
+    
+    >
+
+    <div class="col-md-3">
+
+        <select name="status" class="form-select" id="">
+            <option value="">Todos los estados</option>
+            {% for value, label in status %}
+                <option value="{{ value}}"
+                    {% if request.GET.status == value %}selected{% endif %}
+                >
+                    {{ label }}
+                </option>
+            {%endfor%}
+        </select>
+
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" name="issue_from"
+               value="{{ request.GET.issue_from }}"
+               class="form-control"
+               placeholder="Creado desde">
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" name="issue_to"
+               value="{{ request.GET.issue_to }}"
+               class="form-control"
+               placeholder="Creado hasta">
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Filtrar</button>
+    </div>
+
+    <a href="{% url 'invoices:invoice_list' %}" class="btn btn-outline-secondary">
+    Limpiar filtros
+    </a>
+
+</form>
