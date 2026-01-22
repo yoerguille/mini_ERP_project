@@ -14,6 +14,7 @@ from django.utils.timezone import now
 from decimal import Decimal, ROUND_HALF_UP
 from datetime import date, timedelta
 from clients.models import Client
+from django.db.models import Q
 
 # Create your views here.
 
@@ -26,13 +27,25 @@ class InvoiceListView(ListView):
     def get_queryset(self):
         qs = Invoices.objects.select_related('order')
         search = self.request.GET.get('q')
-        search2= self.request.GET.get('p')
+        ordenar = self.request.GET.get('ordenar')
+        date = self.request.GET.get('date')
 
         if search:
-            qs = qs.filter( order__title__icontains = search)
+            qs = qs.filter( 
+                Q(order__title__icontains = search) |
+                Q(client_name__icontains = search)
+            )
+        
+        if date == 'issue_date':
+            qs = qs.order_by('issue_date')
 
-        if search2:
-            qs = qs.filter( client_name__icontains = search2)
+        if date == '-issue_date':
+            qs = qs.order_by('-issue_date')
+        
+        if ordenar == 'invoice_number':
+            qs = qs.order_by('invoice_number')
+        if ordenar == '-invoice_number':
+            qs = qs.order_by('-invoice_number')
 
         client = self.request.GET.get('client')
         if client:
@@ -50,7 +63,7 @@ class InvoiceListView(ListView):
         if status:
             qs = qs.filter(status=status)
 
-        return qs.order_by('-issue_date')
+        return qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -23,10 +23,18 @@
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Nº Factura</th>
+                        {% if request.GET.ordenar == "invoice_number" %}
+                          <th>Nº Factura <a href="?ordenar=-invoice_number">⬇</a></th>
+                          {% else %}
+                            <th>Nº Factura <a href="?ordenar=invoice_number">⬆</a></th>
+                        {% endif %}
                         <th>Cliente</th>
                         <th>Pedido</th>
-                        <th>Fecha</th>
+                        {% if request.GET.date == "issue_date" %}
+                            <th>Fecha <a href="?date=-issue_date">⬇</a></th>
+                        {% else %}
+                            <th>Fecha <a href="?date=issue_date">⬆</a></th>
+                        {% endif %}  
                         <th>Estado</th>
                         <th class="text-end">Total</th>
                         <th class="text-end">Acciones</th>
