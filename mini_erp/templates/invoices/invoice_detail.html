@@ -137,6 +137,16 @@
         <a href="{% url 'orders:order_detail' object.order.pk %}" class="btn btn-outline-secondary">
             Volver al pedido
         </a>
+
+        <form action="{% url 'invoices:invoice_send_email' object.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit"> Enviar factura cliente</button>
+
+        </form>
+
+        <a href="{% url 'invoices:invoice_send_email' object.pk %}" class="btn btn-outline-secondary">
+            Volver al pedido
+        </a>        
     </div>
 
 </div>

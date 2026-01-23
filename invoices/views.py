@@ -15,6 +15,9 @@ from decimal import Decimal, ROUND_HALF_UP
 from datetime import date, timedelta
 from clients.models import Client
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.utils import timezone
+from .services import send_invoice_email
 
 # Create your views here.
 
@@ -72,7 +75,24 @@ class InvoiceListView(ListView):
 
         return context
 
-        
+class InvoiceSentEmail(View):
+
+    def post(self, request, pk):
+        invoice = get_object_or_404(Invoices, pk=pk)
+
+        if invoice.sent_at:
+            messages.warning(request, "La factura ya fue enviada")
+            return redirect("invoice_detail", pk=pk)
+
+        send_invoice_email(invoice)
+
+        invoice.sent_at = timezone.now()
+        invoice.status = Invoices.InvoiceStatus.ISSUED
+        invoice.save()
+
+        messages.success(request, "Factura enviada correctamente")
+
+        return redirect('invoices:invoice_detail', invoice.pk)
     
 
 class InvoiceDetailView(DetailView):

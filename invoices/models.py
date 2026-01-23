@@ -32,6 +32,11 @@ class Invoices(models.Model):
         blank=True,
     )
 
+    sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
     status = models.CharField(
         verbose_name='Estado',
         choices=InvoiceStatus.choices,

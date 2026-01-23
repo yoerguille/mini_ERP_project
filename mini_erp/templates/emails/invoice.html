@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Factura {{ invoice.invoice_number }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333;">
+
+    <h2>Factura {{ invoice.invoice_number }}</h2>
+
+    <p>Hola {{ invoice.client_name }},</p>
+
+    <p>
+        Te enviamos la factura correspondiente al pedido:
+        <strong>{{ invoice.order.title }}</strong>
+    </p>
+
+    <hr>
+
+    <p><strong>Fecha de emisión:</strong> {{ invoice.issue_date }}</p>
+    <p><strong>Fecha de vencimiento:</strong> {{ invoice.due_date }}</p>
+
+    <hr>
+
+    <h3>Importes</h3>
+    <ul>
+        <li>Base imponible: {{ invoice.base_amount }} €</li>
+        <li>IVA (21%): {{ invoice.vat_amount }} €</li>
+        <li><strong>Total: {{ invoice.total_with_vat }} €</strong></li>
+    </ul>
+
+    <hr>
+
+    <p>
+        Si tienes cualquier duda, puedes responder a este correo.
+    </p>
+
+    <p>
+        Gracias por confiar en nosotros.<br>
+        <strong>MiniERP</strong>
+    </p>
+
+</body>
+</html>
