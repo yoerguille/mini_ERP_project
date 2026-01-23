@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.5;
+        }
+        .invoice-header {
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header-table {
+            width: 100%;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .info-table {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .info-td {
+            width: 50%;
+            vertical-align: top;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .items-table th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            text-align: left;
+            padding: 12px;
+        }
+        .items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .total-section {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .total-box {
+            display: inline-block;
+            background: #2c3e50;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-header">
+        <table class="header-table">
+            <tr>
+                <td class="title">FACTURA</td>
+                <td style="text-align: right;">
+                    <strong>Número:</strong> #{{ invoice.invoice_number }}<br>
+                    <strong>Fecha:</strong> {{ invoice.issue_date|date:"d/m/Y" }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="info-td">
+                <strong>Emisor:</strong><br>
+                Mi Empresa S.A.<br>
+                Calle Falsa 123<br>
+                CIF: B12345678
+            </td>
+            <td class="info-td" style="text-align: right;">
+                <strong>Cliente:</strong><br>
+                {{ invoice.client_name }}<br>
+                {{ invoice.billing_email }}
+                {{ invoice.client_adress }}
+                {{ invoice.cifnif }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th style="text-align: center;">Cantidad</th>
+                <th style="text-align: right;">Precio Unit.</th>
+                <th style="text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Asumiendo que tienes una relación con productos, si no, usa tus campos #}
+            {% for item in invoice.items.all  %}
+                <tr>
+                        <td>{{ item.description }}</td>
+                        <td style="text-align: center;">{{item.quantity}}</td>
+                        <td style="text-align: right;">{{ item.unit_price }}€</td>
+                        <td style="text-align: right;">{{ item.total }}€</td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        <div class="total-box">
+            <strong>BASE IMPONIBLE: {{ invoice.base_amount }}€</strong>
+            <strong>IVA(21%): {{ invoice.vat_amount }}€</strong>
+            <strong>TOTAL: {{ invoice.total_with_vat }}€</strong>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px; font-size: 10px; color: #7f8c8d; text-align: center;">
+        Gracias por su confianza. Esta es una factura generada automáticamente.
+    </div>
+
+</body>
+</html>

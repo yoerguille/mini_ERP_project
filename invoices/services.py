@@ -1,5 +1,8 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.shortcuts import render
+from django.http import HttpResponse
+from weasyprint import HTML
 
 def send_invoice_email(invoice):
     html = render_to_string(
@@ -15,3 +18,4 @@ def send_invoice_email(invoice):
 
     email.attach_alternative(html, "text/html")
     email.send()
+

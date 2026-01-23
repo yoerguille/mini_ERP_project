@@ -18,6 +18,10 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.utils import timezone
 from .services import send_invoice_email
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from django.http import HttpResponse
+from weasyprint import HTML
 
 # Create your views here.
 
@@ -74,6 +78,24 @@ class InvoiceListView(ListView):
         context['status'] = Invoices.InvoiceStatus.choices
 
         return context
+    
+
+
+def create_pdf(request, pk):
+    invoice = get_object_or_404(Invoices, id=pk)
+
+    html_string = render_to_string(
+        'invoices/invoice_pdf.html',
+          {'invoice': invoice},
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="invoice_{invoice.pk}.pdf"'
+
+    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
+
+    return response
+
 
 class InvoiceSentEmail(View):
 

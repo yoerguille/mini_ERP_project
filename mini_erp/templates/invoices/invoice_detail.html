@@ -144,9 +144,12 @@
 
         </form>
 
-        <a href="{% url 'invoices:invoice_send_email' object.pk %}" class="btn btn-outline-secondary">
-            Volver al pedido
-        </a>        
+        <a href="{% url 'invoices:invoice_pdf' object.pk %}" 
+            class="btn btn-primary" 
+            target="_blank">
+            Imprimir Factura (PDF)
+        </a>
+       
     </div>
 
 </div>
