@@ -17,11 +17,13 @@ from clients.models import Client
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.utils import timezone
-from .services import send_invoice_email
+from .services import send_invoice_email, generate_invoice_pdf
 from django.template.loader import render_to_string
 from django.shortcuts import render
 from django.http import HttpResponse
 from weasyprint import HTML
+from io import BytesIO
+from mini_erp import settings
 
 # Create your views here.
 
@@ -79,22 +81,23 @@ class InvoiceListView(ListView):
 
         return context
     
+class InvoicePDFDownload(View):
+    def get(self, request, pk):
+        invoice= get_object_or_404(Invoices, pk=pk)
 
+        pdf_file = generate_invoice_pdf(invoice)
 
-def create_pdf(request, pk):
-    invoice = get_object_or_404(Invoices, id=pk)
+        response = HttpResponse(
+            pdf_file.read(),
+            content_type='application/pdf'
+        )
 
-    html_string = render_to_string(
-        'invoices/invoice_pdf.html',
-          {'invoice': invoice},
-    )
+        response["Content-Disposition"] = (
+            f'inline; filename="Factura_{invoice.invoice_number}.pdf"'
+        )
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="invoice_{invoice.pk}.pdf"'
+        return response
 
-    HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(response)
-
-    return response
 
 
 class InvoiceSentEmail(View):
@@ -104,7 +107,7 @@ class InvoiceSentEmail(View):
 
         if invoice.sent_at:
             messages.warning(request, "La factura ya fue enviada")
-            return redirect("invoice_detail", pk=pk)
+            return redirect("invoices:invoice_detail", invoice.pk)
 
         send_invoice_email(invoice)
 
