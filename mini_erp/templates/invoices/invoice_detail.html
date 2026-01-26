@@ -125,9 +125,19 @@
 
     <!-- ACCIONES -->
     <div class="d-flex gap-2">
-        <a href="{% url 'invoices:create_item_invoice' object.pk %}" class="btn btn-outline-primary">
-            + Añadir línea
+        {% if object.status == 'DRAFT' %}
+          <a href="{% url 'invoices:invoice_draft' object.pk %}" class="btn btn-outline-primary">
+            + Añadir/- Eliminar línea
+            </a>
+        {% endif %}
+
+        {% if object.status == 'DRAFT' %}
+        
+        <a href="{% url 'invoices:invoice_update' object.pk %}" class="btn btn-secondary">
+            Editar Datos de Facturación
         </a>
+        {% endif %}
+
 
         {% if invoice.status == 'DRAFT' %}
             <a href="{% url 'invoices:invoice_issue' object.pk %}" class="btn btn-success">
@@ -135,8 +145,8 @@
             </a>
         {% endif %}
 
-        <a href="{% url 'orders:order_detail' object.order.pk %}" class="btn btn-outline-secondary">
-            Volver al pedido
+        <a href="{% url 'invoices:invoice_list' %}" class="btn btn-outline-secondary">
+            Volver a lista de Facturas
         </a>
 
         <form action="{% url 'invoices:invoice_send_email' object.pk %}" method="post">

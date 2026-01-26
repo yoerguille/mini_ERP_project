@@ -125,15 +125,80 @@ class InvoiceDetailView(DetailView):
     template_name = 'invoices/invoice_detail.html'
 
 
+class InvoiceUpdateView(UpdateView):
+    model = Invoices
+    template_name = 'invoices/invoice_update.html'
+    fields = [
+        'client_name',
+        'cifnif',
+        'client_adress',
+        'billing_email',
+        'invoice_number',
+        'issue_date',
+        'due_date',
+    ]
+
+    def form_valid(self, form):
+        return super(InvoiceUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('invoices:invoice_detail', args=[self.object.pk])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        invoice = Invoices.objects.get(pk=self.kwargs['pk'])
+        order = invoice.order
+        context["order"] = order
+        context["items"] = order.items.all()
+        return context
+
+
+class InvoiceDraftView(View):
+
+    def get(self, request, pk):
+        invoice = get_object_or_404(Invoices, pk=pk)
+
+        form = InvoiceItemForm
+
+        return render(request, "invoices/invoice_draft.html", {
+            "invoice": invoice,
+            "order": invoice.order,
+            "items": invoice.order.items.all(),
+            "invoice_items": invoice.items.all(),
+            "form": InvoiceItemForm(),
+        })
+    
+    def post(self, request, pk):
+        invoice = get_object_or_404(Invoices, pk=pk)
+
+        if invoice.status != Invoices.InvoiceStatus.DRAFT:
+            messages.add_message(self.request, messages.ERROR, f"¡No se puede editar una factura ya emitida!")
+            return redirect('invoices:invoice_detail', invoice.pk)
+        
+        action = request.POST.get("action")
+
+        if action == 'add':
+            form = InvoiceItemForm(request.POST)
+            if form.is_valid(): 
+                item = form.save(commit=False)
+                item.invoice = invoice
+                item.save()
+
+        elif action == 'delete':
+            item_id = request.POST.get('item_id')
+            InvoiceItem.objects.filter(
+                pk = item_id,
+                invoice = invoice
+            ).delete()
+        
+        return redirect('invoices:invoice_draft', invoice.pk)
+        
 
 class InvoiceCreateView(CreateView):
     model = Invoices
     template_name = 'invoices/create_invoice.html'
     form_class = InvoiceForm
 
-    def get_success_url(self):
-
-        return reverse('invoices:create_item_invoice', args=[self.object.pk])
     
     def form_valid(self, form):
         order = Order.objects.get(pk=self.kwargs['pk'])
@@ -144,7 +209,7 @@ class InvoiceCreateView(CreateView):
 
         messages.add_message(self.request, messages.SUCCESS, f"¡{invoice} añadido exitosamente al encargo!")
 
-        return redirect('invoices:create_item_invoice', invoice.pk)
+        return redirect('invoices:invoice_detail', invoice.pk)
     
  
     
@@ -196,35 +261,7 @@ class InvoiceCreateView(CreateView):
 
         return initial
     
+
     
-    
-@method_decorator(login_required, name='dispatch')
-class InvoiceItemCreateView(CreateView):
-    model = InvoiceItem
-    template_name = 'invoices/invoice_item_create.html'
-    form_class = InvoiceItemForm
-    success_url = reverse_lazy('orders:orders')
 
-    def form_valid(self, form):
-        invoice = Invoices.objects.get(pk=self.kwargs['pk'])
-
-        invoice_item = form.save(commit=False)
-        invoice_item.invoice = invoice
-        invoice_item.save()
-
-        messages.add_message(self.request, messages.SUCCESS, f"¡{invoice_item} añadido exitosamente a la factura!")
-
-        return redirect('invoices:create_item_invoice', invoice.pk)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        invoice = Invoices.objects.get(pk=self.kwargs['pk'])
-        order = invoice.order
-
-
-        context["invoice"] = invoice
-        context["invoice_items"] = invoice.items.all()
-        context['items'] = invoice.order.items.all()
-        context['order'] = order
-        return context
 
