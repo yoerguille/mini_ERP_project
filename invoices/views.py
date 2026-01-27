@@ -81,6 +81,17 @@ class InvoiceListView(ListView):
 
         return context
     
+class ChangeInvoiceStatusView(View):
+    def post(self, request, pk):
+        invoice = get_object_or_404(Invoices, pk=pk)
+        new_status = request.POST.get('status')
+        if new_status in Invoices.InvoiceStatus.values:
+            invoice.status = new_status
+            invoice.save()
+            
+
+        return redirect('invoices:invoice_detail', invoice.pk)
+    
 class InvoicePDFDownload(View):
     def get(self, request, pk):
         invoice= get_object_or_404(Invoices, pk=pk)

@@ -17,6 +17,18 @@
             <h2 class="mb-1">
                 Factura {{ object.invoice_number }}
             </h2>
+
+            <span>
+                <form method="post" action="{% url 'invoices:invoice_change_status' object.pk %}">
+                    {% csrf_token %}
+                    <select name="status" class="form-select w-auto" onchange="this.form.submit()">
+                        <option disabled selected>Cambiar Estado</option>
+                        <option value="PAID">Pagada</option>
+                        <option value="CANCELLED">Cancelada</option>
+                    </select>
+                </form>
+            </span>
+
             <small class="text-muted">
                 Pedido relacionado:
                 <a href="{% url 'orders:order_detail' object.order.pk %}">
@@ -26,12 +38,13 @@
         </div>
 
         <div>
-            <span class="badge 
-                {% if invoice.status == 'DRAFT' %} bg-secondary
-                {% elif invoice.status == 'ISSUED' %} bg-primary
-                {% elif invoice.status == 'PAID' %} bg-success
+            <span class='badge fs-6
+                {% if object.status == "DRAFT" %} bg-secondary
+                {% elif object.status == "ISSUED" %} bg-primary
+                {% elif object.status == "PAID" %} bg-success
+                {% elif object.status == "CANCELLED" %} bg-danger
                 {% endif %}
-                fs-6">
+                '>
                 {{ object.get_status_display }}
             </span>
         </div>
