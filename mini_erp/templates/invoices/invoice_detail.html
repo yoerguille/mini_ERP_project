@@ -138,13 +138,6 @@
         </a>
         {% endif %}
 
-
-        {% if invoice.status == 'DRAFT' %}
-            <a href="{% url 'invoices:invoice_issue' object.pk %}" class="btn btn-success">
-                Emitir factura
-            </a>
-        {% endif %}
-
         <a href="{% url 'invoices:invoice_list' %}" class="btn btn-outline-secondary">
             Volver a lista de Facturas
         </a>
@@ -162,6 +155,15 @@
             Descargar Factura PDF
 
         </a>
+
+        {% if object.status == 'DRAFT' %}
+            <a href="{% url 'invoices:invoice_delete' object.pk %}"
+                class="btn btn-outline-danger"
+            >
+            Eliminar
+
+            </a>
+        {% endif %}
 
     </div>
 

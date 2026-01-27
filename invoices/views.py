@@ -97,6 +97,13 @@ class InvoicePDFDownload(View):
         )
 
         return response
+    
+class InvoiceDelete(DeleteView):
+    model = Invoices
+    template_name = 'invoices/invoice_delete.html'
+
+    def get_success_url(self):
+        return reverse('invoices:invoice_list')
 
 
 
