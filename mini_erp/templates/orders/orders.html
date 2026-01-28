@@ -1,0 +1,45 @@
+
+{% extends "general/layout.html" %}
+
+{% block head_title %} Panel de Pedidos {% endblock %}
+
+{% block contenido %}
+            
+      <div class="container">
+      {% include "_includes/_messages.html" %}
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+      
+         <section>
+               <div class="row">
+                  <p class="mb-3"><a href="{% url 'orders:order_create' %}">Crear un Nuevo pedido</a></p>
+               </div>
+            
+               <div class="row">
+                  <h4>Búsqueda y Filtros</h4>
+                  {% include "_includes/_orders/_order_filters.html" %}
+                  <div class="row g-3">
+                     <h2>Ultimos Encargos</h2>
+                     
+                        <h3 class="mb-3"></h3>
+                        {% for order in orders  %}
+                           {% include "_includes/_orders/_order_row.html" %}
+                       
+                        {% endfor %}
+                     
+                  </div>
+                  
+
+                  
+               </div>
+               
+                  
+               
+         </section>
+      
+      </div  
+
+
+      
+       
+{% endblock %}

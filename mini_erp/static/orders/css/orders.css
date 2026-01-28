@@ -1,0 +1,74 @@
+.order-row {
+    background-color: #a3d1bb;
+    transition: background-color 0.15s ease;
+}
+
+.order-row:hover {
+    background-color: #1b6bbb;
+}
+
+.order-price {
+    font-size: 1.0rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-card {
+    background: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.order-items-table td,
+.order-items-table th {
+    vertical-align: middle;
+}
+
+.order-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.order-header {
+    padding: 1.2rem;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.order-header h2 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.order-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.order-total {
+    margin-left: auto;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+body {
+    background-color: #f3f4f6;
+}

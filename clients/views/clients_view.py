@@ -5,22 +5,28 @@ from ..models import Client, ClientContact, ClientFile
 from django.urls import reverse_lazy, reverse
 from mini_erp.forms import AddClientForm
 from clients.forms import CreateFileForm, ClientContactForm, ClientForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+@method_decorator(login_required, name='dispatch')
 class ClientDeleteView(DeleteView):
     model = Client
     template_name= 'general/client_delete.html'
     success_url= reverse_lazy('home')
 
+@method_decorator(login_required, name='dispatch')
 class ClientContactDeleteView(DeleteView):
     model = ClientContact
     template_name= 'general/client_contact_delete.html'
     success_url= reverse_lazy('home')
 
+@method_decorator(login_required, name='dispatch')
 class ClientFileDeleteView(DeleteView):
     model = ClientFile
     template_name= 'general/client_file_delete.html'
     success_url= reverse_lazy('home')
 
+@method_decorator(login_required, name='dispatch')
 class ClientRegisterView(CreateView):
     model = Client
     template_name = 'general/client_add.html'
@@ -29,7 +35,8 @@ class ClientRegisterView(CreateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-    
+
+@method_decorator(login_required, name='dispatch')    
 class ClientContactRegisterView(CreateView):
     context_object_name = 'contact'
     model = ClientContact
@@ -41,7 +48,8 @@ class ClientContactRegisterView(CreateView):
         # Guardar automáticamente el cliente correspondiente
         form.instance.client_id = self.kwargs["pk"]
         return super().form_valid(form)
-    
+
+@method_decorator(login_required, name='dispatch')    
 class ClientFileRegisterView(CreateView):
     context_object_name = 'file'
     model = ClientFile
@@ -53,12 +61,14 @@ class ClientFileRegisterView(CreateView):
         form.instance.client_id = self.kwargs["pk"]
         return super().form_valid(form)
 
+@method_decorator(login_required, name='dispatch')
 class ClientListView(ListView):
     model= Client
     context_object_name = 'clients'
     template_name = 'general/client_list.html'
     ordering = ["name"]
 
+@method_decorator(login_required, name='dispatch')
 class ClientDetailView(DetailView):
     model = Client
     template_name= 'general/client_detail.html'
@@ -71,18 +81,20 @@ class ClientDetailView(DetailView):
         context['contacts'] = client.relacionados.all()
         context['files'] = client.files.all()
         return context
-    
+
+@method_decorator(login_required, name='dispatch')    
 class ClientContactDetailView(DetailView):
     model = ClientContact
     template_name = 'general/client_contact_detail.html'
     context_object_name = 'contact'
 
+@method_decorator(login_required, name='dispatch')
 class ClientFileDetailView(DetailView):
     model = ClientFile
     template_name = 'general/client_file_detail.html'
     context_object_name = 'file'
         
- 
+@method_decorator(login_required, name='dispatch') 
 class ClientUpdateView(UpdateView):
     model = Client
     template_name = 'general/client_update.html'
@@ -102,7 +114,8 @@ class ClientUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('clients:clients_detail', args=[self.object.pk])
-    
+
+@method_decorator(login_required, name='dispatch')    
 class ClientContactUpdateView(UpdateView):
     model = ClientContact
     template_name = 'general/client_contact_update.html'

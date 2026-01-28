@@ -1,0 +1,51 @@
+
+<div class="order-row d-flex align-items-center p-3 mb-2 shadow-sm border rounded">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
+
+    <!-- Cliente -->
+    <div class="col-2 fw-bold">
+        {{ order.client.name }}
+    </div>
+
+    <!-- Título -->
+    <div class="col-3">
+        {{ order.title }}
+    </div>
+
+    <!-- Tipo de pedido -->
+    <div class="col-2">
+        <span class="badge 
+            {% if order.order_type == 'BIG' %} bg-primary
+            {% else %} bg-secondary
+            {% endif %}">
+            {{ order.get_order_type_display }}
+        </span>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-2">
+        <span class="badge bg-{{ order.status_color }}">
+            {{ order.get_status_display }}
+        </span>
+    </div>
+
+    <!-- Fecha creación -->
+    <div class="col-2 text-muted">
+        {% if order.created_at %}
+            {{ order.created_at|date:"d/m/Y" }}
+        {% else %}
+            Sin definir
+        {% endif %}
+    </div>
+
+    <!-- Total + acción -->
+    <div class="col-1 text-end">
+        <div class="order-price fw-bold">{{ order.total_price }} € +IVA</div>
+        <a href="{% url 'orders:order_detail' order.pk %}"
+           class="btn btn-sm btn-outline-primary mt-1">
+            Ver
+        </a>
+    </div>
+
+</div>

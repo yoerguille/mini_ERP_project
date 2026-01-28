@@ -1,0 +1,32 @@
+<div class="card mb-3 shadow-sm" style="width: 18rem;">
+    <!-- Encabezado de la tarjeta: muestra cliente y estado del pedido -->
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>{{ order.client.name }}</span>
+        <span class="badge 
+            {% if order.order_type == 'BIG' %} bg-primary 
+            {% else %} bg-secondary 
+            {% endif %}">
+            {{ order.get_order_type_display }}
+        </span>
+    </div>
+
+    <!-- Cuerpo de la tarjeta: información principal -->
+    <div class="card-body">
+        <h5 class="card-title">{{ order.title }}</h5>
+        <p class="card-text">
+            <strong>Estado:</strong> 
+            <span class="badge bg-{{ order.status_color }}">
+                {{ order.get_status_display }}
+            </span>
+            <br>
+            <strong>Fecha límite:</strong> 
+            {% if order.delivery_date %}{{ order.delivery_date|date:"d/m/Y" }}{% else %}Sin definir{% endif %}
+        </p>
+        <p class="card-text"><strong>Total:</strong> {{ order.total_price }} € + IVA</p>
+
+        <!-- Botón para ir al detalle del pedido -->
+        <a href="{% url 'orders:order_detail' order.pk %}" class="btn btn-sm btn-outline-primary">
+            Ver detalle
+        </a>
+    </div>
+</div>

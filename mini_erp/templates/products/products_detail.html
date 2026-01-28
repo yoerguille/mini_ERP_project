@@ -1,0 +1,58 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} {{object.model}} {% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <h2>{% block h1 %}{{ object.model}}{% endblock %}</h2>
+        <div class="col-md-6">
+            <img src="{{ object.image.url}}" alt="">
+        </div>
+        <div class="col-md-6">
+            <div class="mb-a">{{ object.model_name }}
+                <p><strong>Modelo: </strong> {{ object.model}}</p>
+                <p>
+                    <a href="{{ object.model_url }}" target="_blank">
+                        Ver ficha del proveedor
+                    </a>
+                </p>
+                <p><strong>Tipo de Prenda: </strong> {{ object.type}}</p>
+                <p><strong>SKU: </strong> {{ object.sku}}</p>
+                <p><strong>Print: </strong> {{ object.allowed_print}}</p>
+
+                <hr>
+
+            <h4>Precios</h4>
+
+                <p><strong>Coste proveedor:</strong> {{ object.cost_price }} €</p>
+                <p><strong>+20%:</strong> {{ price_20 }} €</p>
+                <p><strong>+25%:</strong> {{ price_25 }} €</p>
+
+                <form method="get">
+                    <label for="margin">Margen (%)</label>
+                    <input type="number" step="0.1" min="0" name="margin" class="form-control" placeholder="Ej: 40" required>
+
+                    <button class="btn btn-secondary mt-2">Calcular</button>
+                </form>
+                {% if custom_price %}
+                    <p><strong>+{{ custom_margin }}%</strong> {{ custom_price }} €</p>
+                {% endif %}
+
+            </div>
+        </div>
+        
+
+        
+    </div>
+    
+    
+    
+
+
+    <hr>
+    <p><a href="{% url 'products:products_catalog' %}">Volver a Catálogo</a></p>
+</div>
+
+{% endblock %}
+

@@ -4,7 +4,7 @@
 
 {% block contenido %}
         <div class="container">
-            <h1>{% block h1 %} Clientes {% endblock %}</h1>
+            <h2>{% block h1 %} Clientes {% endblock %}</h2>
             <ul>
                 {% for client in clients %}
                     <li><a href="{% url 'clients:clients_detail' client.pk %}">{{ client.name }}</a></li>

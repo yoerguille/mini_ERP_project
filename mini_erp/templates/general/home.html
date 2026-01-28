@@ -3,13 +3,44 @@
 {% block head_title %} Bienvenido a la Home {% endblock %}
 
 {% block contenido %}
-        <div class="container">
-            
-             <h1>{% block h1 %}Bienvenido a la Home{% endblock %}</h1>
-             <ul>
-                <li><a href="{% url 'clients:clients_list' %}">Clientes</a></li>
-             </ul>
 
-        </div>
+   {% if request.user.is_authenticated %}
+            
+      <div class="container">
+      {% include "_includes/_messages.html" %}
+      
+         <section>
+            
+               <div class="row">
+                  <h2>Ultimos Encargos</h2>
+                  <div class="col-md-6">
+                     <h3 class="mb-3">Encargos</h3>
+                     {% for order in important_orders|slice:":1" %}
+                  
+                        {% include "_includes/_orders/_order_card.html" %}
+                  
+                     {% endfor %}
+                  </div>
+
+                  <div class="col-md-6">
+                     <h3 class="mb-3">Mostrador</h3>
+                     {% for order in counter_orders|slice:":1" %}
+                  
+                        {% include "_includes/_orders/_order_card.html" %}
+                  
+                     {% endfor %}
+                  </div>
+                  
+               </div>
+               
+                  
+               
+         </section>
+      
+      </div
+   {% endif %}  
+
+
+      
        
 {% endblock %}

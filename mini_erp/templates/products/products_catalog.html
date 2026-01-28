@@ -1,0 +1,49 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} Productos {% endblock %}
+
+{% block contenido %}
+        <div class="container">
+            <section>
+                <h2>{% block h1 %} Catálogo de Productos {% endblock %}</h2>
+                <div class="container py-5">
+                    <div class="row g-4 justify-content-center">
+
+                        {% for object in products %}
+                        <div class="col-md-4 col-sm-6">
+
+                            <div class="card product-card border-0 rounded-4 shadow-sm">
+                                <div class="position-relative">
+                                    <div class="overflow-hidden">
+                                        <a href="{% url 'products:product_detail' object.pk %}">
+                                            <img src="{{ object.image.url }}" class="card-img-top product-image" alt="Product Image">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body p-4">
+                                    <h5 class="card-title mb-3 fw-bold">{{ object }}</h5>
+                                    <p class="card-text text-muted mb-4">{{ object.sku }}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="price"><cite> Precio Proveedor -</cite> {{ object.cost_price }} €</span>
+                                        <button class="btn btn-custom text-white px-4 py-2 rounded-pill">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                {% endfor %}
+            
+            <hr>
+            <p><a href="{% url 'home' %}">Volver a la Home</a></p>
+            </section>
+            
+        </div>
+
+        
+       
+{% endblock %}
+

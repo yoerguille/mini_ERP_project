@@ -1,0 +1,32 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} Edicion Order {% endblock %}
+
+{% block h1 %}Página de edición de Encargo{% endblock %}
+
+{% block contenido %}
+   <div class="container">
+        
+
+        <h1>Editar encargo</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        {{ form.title|as_crispy_field }}
+                        {{ form.status|as_crispy_field }}
+                        {{ form.order_type|as_crispy_field }}
+                        {{ form.notes|as_crispy_field }}
+                        {{ form.delivery_date|as_crispy_field }}
+                    </div>
+                </div>
+                <button class="btn btn-secondary">Guardar</button>
+            </form> 
+
+        <p><a href="{% url 'orders:order_detail' object.pk %}">Volver atrás</a></p>
+    </div>
+
+        
+
+{% endblock %}
