@@ -105,8 +105,8 @@
                 <tr>
                     <th>Cant.</th>
                     <th>Concepto</th>
-                    <th class="text-end">Total</th>
-                    <th></th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
                     <th>Delete?</th>
                 </tr>
             </thead>
@@ -133,7 +133,7 @@
         </table>
 
         <div class="totals text-end">
-            <p>Base imponible: <strong>{{invoice.base_amount}} €</strong></p>
+            <p class="text-end">Base imponible: <strong class="text-end">{{invoice.base_amount}} €</strong></p>
             <p>IVA: <strong>{{ invoice.vat_amount}} €</strong></p>
             <h4>Total: {{invoice.total_with_vat}}€</h4>
         </div>
