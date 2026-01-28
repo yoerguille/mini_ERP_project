@@ -9,6 +9,9 @@ from django.urls import reverse_lazy, reverse
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.models import User
 
+class landingView(TemplateView):
+    template_name = 'general/landing.html'
+
 class home_view(TemplateView):
 
     template_name = 'general/home.html'

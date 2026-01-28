@@ -1,0 +1,100 @@
+{% extends "general/layout.html" %}
+
+{% block head_title %} Invoice Detail {% endblock %}
+
+{% block contenido %}
+
+{% load static %}
+{% load humanize %}
+
+<div class="container my-4">
+
+    <h4>Búsqueda y Filtros</h4>
+        {% include "_includes/_invoices/_invoices_filters.html" %}
+
+    <!-- CABECERA -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Facturas</h2>
+    </div>
+
+    <!-- TABLA DE FACTURAS -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        {% if request.GET.ordenar == "invoice_number" %}
+                          <th>Nº Factura <a href="?ordenar=-invoice_number">⬇</a></th>
+                          {% else %}
+                            <th>Nº Factura <a href="?ordenar=invoice_number">⬆</a></th>
+                        {% endif %}
+                        <th>Cliente</th>
+                        <th>Pedido</th>
+                        {% if request.GET.date == "issue_date" %}
+                            <th>Fecha <a href="?date=-issue_date">⬇</a></th>
+                        {% else %}
+                            <th>Fecha <a href="?date=issue_date">⬆</a></th>
+                        {% endif %}  
+                        <th>Estado</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td class="fw-bold">
+                                {{ invoice.invoice_number }}
+                            </td>
+
+                            <td>
+                                {{ invoice.client_name }}
+                            </td>
+
+                            <td>
+                                <a href="{% url 'orders:order_detail' invoice.order.pk %}">
+                                    {{ invoice.order.title }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ invoice.issue_date|date:"d/m/Y" }}
+                            </td>
+
+                            <td>
+                                <span class="badge 
+                                    {% if invoice.status == 'DRAFT' %} bg-secondary
+                                    {% elif invoice.status == 'ISSUED' %} bg-primary
+                                    {% elif invoice.status == 'PAID' %} bg-success
+                                    {% elif invoice.status == 'CANCELLED' %} bg-danger
+                                    {% endif %}
+                                ">
+                                    {{ invoice.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td class="text-end fw-bold">
+                                {{ invoice.total_with_vat }} €
+                            </td>
+
+                            <td class="text-end">
+                                <a href="{% url 'invoices:invoice_detail' invoice.pk %}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    Ver
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                No hay facturas registradas
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

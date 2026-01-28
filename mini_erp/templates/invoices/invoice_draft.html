@@ -1,0 +1,149 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} InvoiceItem{% endblock %}
+
+{% block h1 %} Items de la factura {% endblock %}
+
+{% block contenido %}
+
+<div class="container mt-4">
+
+
+
+    <!--Header-->
+    <div class="invoice-header">
+        <h2>Factura {{ invoice.invoice_number}} - {{ invoice.status}} </h2>
+        <p>
+            <strong>Cliente:</strong> {{ invoice.client_name }}<br>
+            <strong>Pedido:</strong> · {{ order.title }}
+        </p>
+    </div>
+
+
+    <!--Body-->
+    <div class="row">
+        <div class="col-md-5">
+            <div class="order-items-panel">
+                <h5>Artículos del pedido</h5>
+
+                
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Cant.</th>
+                            <th>Producto</th>
+                            <th>Variante</th>
+                            <th>Precio</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items  %}
+                          
+                        <tr>
+                            <td>{{item.quantity}}</td>
+                            <td>{{ item.product }}</td>
+                            <td>{{ item.variant }}</td>
+                            <td>{{item.unit_price}}€</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary">
+                                Añadir
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form action="" method='post'>
+                        {% csrf_token %}
+                        <h5>Añadir línea a la factura</h5>
+
+                        <div class="mb-3">
+                            
+                            {{ form.description|as_crispy_field }}
+                            <small class="text-muted">
+                                Ej: Sudadera Urban personalizada
+                            </small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                
+                                {{ form.quantity|as_crispy_field }}
+                            </div>
+                            <div class="col">
+                                
+                                {{ form.unit_price|as_crispy_field }}
+                            </div>
+
+                            <input type="hidden" name="action" value="add">
+                        
+
+                            <button class="btn btn-success mt-3">
+                            Añadir a la factura
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="invoice-summary mt-5">
+        <h5>Artículos facturados</h5>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cant.</th>
+                    <th>Concepto</th>
+                    <th class="text-end">Total</th>
+                    <th></th>
+                    <th>Delete?</th>
+                </tr>
+            </thead>
+             <tbody>
+                {% for item in invoice_items %}
+                <tr>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.unit_price }}</td>
+                    <td>{{ item.total }} €</td>
+                    <td>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="item_id" value="{{ item.pk }}">
+                            <button class="btn btn-danger btn-sm">
+                                🗑
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals text-end">
+            <p>Base imponible: <strong>{{invoice.base_amount}} €</strong></p>
+            <p>IVA: <strong>{{ invoice.vat_amount}} €</strong></p>
+            <h4>Total: {{invoice.total_with_vat}}€</h4>
+        </div>
+        <div class="mt-4">
+            {% if items %} 
+                <p><a class="btn btn-primary" href="{% url 'invoices:invoice_detail' invoice.pk %}">Listo!</a></p>
+            {% else %}
+                <p><a class="btn btn-secondary" href="{% url 'orders:orders' %}">Volver atrás</a></p>
+            {% endif %}
+            
+        </div>
+</div>
+{% endblock %}

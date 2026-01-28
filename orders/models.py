@@ -92,7 +92,10 @@ class OrderItem(models.Model):
         on_delete=models.PROTECT,
     )
 
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(
+        default=1,
+        
+    )
 
     unit_price = models.DecimalField(
         max_digits=10,

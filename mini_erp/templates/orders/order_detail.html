@@ -14,6 +14,8 @@
     <div class="order-header">
         <h2>{{ object.title }}</h2>
 
+        <p><a href="{% url 'invoices:create_invoice' object.pk %}">Crear Factura</a></p>
+
         <div class="order-meta">
 
             <a href="{% url 'orders:order_update' object.pk %}" class="btn btn-outline-primary">

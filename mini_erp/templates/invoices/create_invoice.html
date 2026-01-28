@@ -1,0 +1,53 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} New Invoice{% endblock %}
+
+{% block h1 %} Nueva Factura {% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <h1>Rellena los siguientes campos</h1>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    {{ form.client_name|as_crispy_field}}
+                    {{ form.billing_email|as_crispy_field}}
+                    {{ form.invoice_number|as_crispy_field}}
+                    {{ form.client_adress|as_crispy_field}}
+                    {{ form.cifnif|as_crispy_field}}
+                    {{ form.issue_date|as_crispy_field}}
+                    {{ form.due_date|as_crispy_field}}
+                    {{ form.status| as_crispy_field}}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    {% if items %}
+                    <p><b>Artículos añadidos:</b></p>
+                    <ul>
+                        {% for item in items %}
+                        <li>
+                            {{item.product}}
+                            {{item.variant}}
+                            {{item.quantity}}
+                            {{item.unit_price}}
+                            {{item.notes}}
+                        </li>
+
+                        {% endfor %}
+                        <p class="mb-0"><b>Precio Total:</b> {{ order.total_price }}€ + IVA</p>
+                        <p class="mb-0"><b>Total a Pagar:</b> {{ order.total_price_with_vat }}€ IVA incl.</p>
+                    </ul>
+                    {% else %}
+                        <p>No hay artículos añadidos todavía</p>
+                      
+                    {% endif %}
+                </div>
+            <button class= "btn btn-secondary">Guardar</button>
+        </form>
+        <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>
+    </div>
+{% endblock %}

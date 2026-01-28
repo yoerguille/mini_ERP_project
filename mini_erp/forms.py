@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from clients.models import Client
 from orders.models import Order, OrderItem
+from invoices.models import Invoices, InvoiceItem
 
 class AddClientForm(forms.ModelForm):
     password=forms.CharField(widget=forms.PasswordInput)
@@ -47,6 +48,46 @@ class OrderForm(forms.ModelForm):
             )
         }
 
+class InvoiceForm(forms.ModelForm):
+    class Meta:
+        model = Invoices
+
+        fields = [
+            'client_name',
+            'cifnif',
+            'client_adress',
+            'billing_email',
+            'invoice_number',
+            'issue_date',
+            'due_date',
+            'status',
+        ]
+
+        widgets = {
+            'issue_date' : forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'class': 'form-control'
+                }
+            ),
+            'due_date' : forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'class': 'form-control'
+                }
+            )
+        }
+
+class InvoiceItemForm(forms.ModelForm):
+    class Meta:
+        model = InvoiceItem
+        fields = {
+            'description',
+            'quantity',
+            'unit_price',
+        }
+
+
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
@@ -57,6 +98,8 @@ class OrderItemForm(forms.ModelForm):
             'unit_price',
             'notes',
         ]
+
+    
 
 class RegisterForm(forms.ModelForm):
     password=forms.CharField(widget=forms.PasswordInput)

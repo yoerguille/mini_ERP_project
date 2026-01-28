@@ -1,0 +1,20 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} Delete {{object.invoice_number}} {% endblock %}
+
+{% block h1 %}¿  Eliminar {{object.client_name}} - {{object.invoice_number}} ? {% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <h1>¿Eliminar Factura ?</h1>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="row">
+                <p>¿Seguro que quieres eliminar esta Factura?</p>
+            </div>
+            <button class= "btn btn-secondary">Eliminar</button>
+        </form>
+        <p><a href="{% url 'orders:orders' %}">Volver atrás</a></p>
+    </div>
+{% endblock %}
