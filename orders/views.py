@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils import timezone
+from invoices.services import send_order_email
 
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
@@ -143,6 +145,26 @@ class OrderListView(ListView):
         context['status'] = Order.OrderStatus.choices
  
         return context
+    
+class OrderSentEmail(View):
+    def post(self, request, pk ):
+        order = get_object_or_404(Order, pk=pk)
+
+        if order.sent_at:
+            messages.warning(request, "El aviso al cliente ya fue enviado anteriormente.")
+            return redirect('orders:order_detail', order.pk)
+
+        send_order_email(order)
+        order.sent_at = timezone.now()
+        order.status = Order.OrderStatus.COMPLETED
+        order.save()
+
+        messages.success(request, 'Aviso a Cliente enviado con éxito')
+
+        return redirect('orders:order_detail', order.pk)
+
+
+
     
     
 

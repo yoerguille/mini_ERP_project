@@ -46,3 +46,18 @@ def send_invoice_email(invoice):
 
     email.send()
 
+def send_order_email(order):
+    html = render_to_string(
+        "emails/order_completed.html",
+        {'order': order}
+    )
+
+    email = EmailMultiAlternatives(
+        subject=f"Pedido - {order.title} - {order.client.name}",
+        body='El cliente no soporta HTML',
+        to=[order.client.email]
+    )
+
+    email.attach_alternative(html, "text/html")
+
+    email.send()

@@ -11,6 +11,7 @@
 
 <!--Header-->
 <div class="container">
+    {% include "_includes/_messages.html" %}
     <div class="order-header">
         <h2>{{ object.title }}</h2>
 
@@ -102,6 +103,8 @@
         {% endfor %}
     </tbody>
     </table>
+
+
     <!--Botones de accion -->
     <div class="order-actions">
 
@@ -116,6 +119,12 @@
         <a href="{% url 'home' %}" class="btn btn-link">
             Volver
         </a>
+
+        <form action="{% url 'orders:sent_email' object.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Enviar</button>
+
+        </form>
     </div>
 </div>
 
