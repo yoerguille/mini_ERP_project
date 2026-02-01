@@ -120,11 +120,17 @@
             Volver
         </a>
 
-        <form action="{% url 'orders:sent_email' object.pk %}" method="post">
+        {% if object.status != 'COMPLETED' %}
+          
+            <form action="{% url 'orders:sent_email' object.pk %}" method="post">
             {% csrf_token %}
-            <button type="submit">Completar Pedido y Aviso al Cliente</button>
+            <button type="submit">Completar Pedido</button>
 
-        </form>
+            </form>
+
+        {% endif %}
+
+        
     </div>
 </div>
 

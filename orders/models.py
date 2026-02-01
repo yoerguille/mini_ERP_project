@@ -27,7 +27,7 @@ class Order(models.Model):
     title = models.CharField(
         max_length=50,
         help_text='Descripcion corta del Pedido',
-        verbose_name='Nombre',
+        verbose_name='Nombre del encargo',
     )
 
     status = models.CharField(
