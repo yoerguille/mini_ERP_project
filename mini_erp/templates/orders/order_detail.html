@@ -27,20 +27,37 @@
                 Entrega: {{ object.delivery_date|date:"d/m/Y" }}
             </span>
 
-            <span>
-                <form method="post" action="{% url 'orders:change_status' object.pk %}">
-                    {% csrf_token %}
-                    <select name="status" class="form-select w-auto" onchange="this.form.submit()">
-                        <option disabled selected>Cambiar Estado</option>
-                        <option value="PENDING_DESIGN">Pendiente de diseño</option>
-                        <option value="DESIGN_READY">Diseño confirmado</option>
-                        <option value="IN_PRODUCTION">En producción</option>
+            {% if object.status == 'COMPLETED' %}
+              <span>
+                    <form method="post" action="{% url 'orders:change_status' object.pk %}">
+                     {% csrf_token %}
+                        <select name="status" class="form-select w-auto" onchange="this.form.submit()">
+                            <option disabled selected>Cambiar Estado</option>
+                            <option value="DELIVERED">Entregado</option>
+                            <option value="CANCELLED">Cancelado</option>
+                        </select>
+                    </form>
+                </span>
+
+            {% else %}
+                <span>
+                    <form method="post" action="{% url 'orders:change_status' object.pk %}">
+                     {% csrf_token %}
+                        <select name="status" class="form-select w-auto" onchange="this.form.submit()">
+                            <option disabled selected>Cambiar Estado</option>
+                            <option value="PENDING_DESIGN">Pendiente de diseño</option>
+                            <option value="DESIGN_READY">Diseño confirmado</option>
+                            <option value="IN_PRODUCTION">En producción</option>
                         
-                        <option value="DELIVERED">Entregado</option>
-                        <option value="CANCELLED">Cancelado</option>
-                    </select>
-                </form>
-            </span>
+                            <option value="DELIVERED">Entregado</option>
+                         <option value="CANCELLED">Cancelado</option>
+                        </select>
+                    </form>
+                </span>
+
+            {% endif %}
+
+            
 
             
             <span class="badge bg-{{ object.status_color }}">
@@ -91,13 +108,14 @@
             <td>{{ item.variant }}</td>
             <td>{{ item.unit_price }} €</td>
             <td>
-                <a href="{% url 'orders:order_item_delete' item.pk %}">
-                    <button class="btn btn-danger btn-sm">
-                        🗑
-
-                    </button>
-
-                </a>
+                <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="item_id" value="{{ item.pk }}">
+                            <button class="btn btn-danger btn-sm">
+                                🗑
+                            </button>
+                </form>
             </td>
         </tr>
         {% endfor %}
@@ -107,21 +125,20 @@
 
     <!--Botones de accion -->
     <div class="order-actions">
-
-        <a href="{% url 'orders:order_item' object.pk %}" class="btn btn-outline-primary">
-            Añadir artículo
-        </a>
-
-        <a href="{% url 'orders:order_delete' object.pk %}" class="btn btn-outline-danger">
-            Eliminar
-        </a>
-
-        <a href="{% url 'home' %}" class="btn btn-link">
-            Volver
-        </a>
-
         {% if object.status != 'COMPLETED' %}
-          
+
+            <a href="{% url 'orders:order_draft' object.pk %}" class="btn btn-outline-primary">
+                Añadir artículo
+            </a>
+
+            <a href="{% url 'orders:order_delete' object.pk %}" class="btn btn-outline-danger">
+                Eliminar Pedido
+            </a>
+
+            
+
+            
+            
             <form action="{% url 'orders:sent_email' object.pk %}" method="post">
             {% csrf_token %}
             <button type="submit">Completar Pedido</button>
@@ -129,7 +146,9 @@
             </form>
 
         {% endif %}
-
+            <a href="{% url 'home' %}" class="btn btn-link">
+            Volver
+            </a>
         
     </div>
 </div>

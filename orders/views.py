@@ -29,6 +29,18 @@ class OrderDetailView(DetailView):
     model = Order
     template_name = 'orders/order_detail.html'
 
+    def post(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+
+        action = request.POST.get("action")
+        if action == 'delete':
+            item_id = request.POST.get('item_id')
+            OrderItem.objects.filter(
+                pk=item_id,
+                order = order
+            ).delete()
+            return redirect('orders:order_detail', order.pk)
+
 @method_decorator(login_required, name='dispatch')
 class OrderUpdateView(UpdateView):
     model = Order
@@ -59,31 +71,45 @@ class OrderDeleteView(DeleteView):
     model = Order
     template_name = 'orders/order_delete.html'
     success_url = reverse_lazy('orders:orders')
-
-@method_decorator(login_required, name='dispatch')
-class OrderItemCreateView(CreateView):
-    model = OrderItemForm
-    template_name = 'orders/order_item.html'
-    form_class = OrderItemForm
-    success_url = reverse_lazy('orders:orders')
-
-    def form_valid(self, form):
-        order = Order.objects.get(pk=self.kwargs['pk'])
-
-        item = form.save(commit=False)
-        item.order = order
-        item.save()
-
-        messages.add_message(self.request, messages.SUCCESS, f"¡{item} añadido exitosamente al encargo!")
-
-        return redirect('orders:order_item', order.pk)
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        order = Order.objects.get(pk=self.kwargs['pk'])
-        context["order"] = order
-        context["items"] = order.items.all()
-        return context
+
+class OrderDraftView(View):
+
+    def get(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+
+        form = OrderItemForm
+
+        return render(request, "orders/order_draft.html", {
+            "order": order,
+            "items": order.items.all(),
+            "form": OrderItemForm(),
+        })
+    
+    def post(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+
+        if order.status == Order.OrderStatus.COMPLETED:
+            messages.add_message(self.request, messages.ERROR, f"¡No se puede editar un pedido ya completado!")
+            return redirect('orders:order_detail', order.pk)
+        
+        action = request.POST.get("action")
+
+        if action == 'add':
+            form = OrderItemForm(request.POST)
+            if form.is_valid(): 
+                item = form.save(commit=False)
+                item.order = order
+                item.save()
+
+        elif action == 'delete':
+            item_id = request.POST.get('item_id')
+            OrderItem.objects.filter(
+                pk = item_id,
+                order = order
+            ).delete()
+        
+        return redirect('orders:order_draft', order.pk)
     
     
     
@@ -94,7 +120,7 @@ class OrderCreateView(CreateView):
     form_class = OrderForm
 
     def get_success_url(self):
-        return reverse('orders:order_item', args=[self.object.pk])
+        return reverse('orders:order_draft', args=[self.object.pk])
 
 @method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):

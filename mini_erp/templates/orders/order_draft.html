@@ -1,0 +1,117 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %} InvoiceItem{% endblock %}
+
+{% block h1 %} Items de la factura {% endblock %}
+
+{% block contenido %}
+
+<div class="container mt-4">
+
+
+
+    <!--Header-->
+    <div class="invoice-header">
+        <h2>Pedido {{ order.pk}} - {{ order.status}} </h2>
+        <p>
+            <strong>Cliente:</strong> {{ order.client.name }}<br>
+            <strong>Pedido:</strong> · {{ order.title }}
+        </p>
+    </div>
+
+
+    <!--Body-->
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form action="" method='post'>
+                        {% csrf_token %}
+                        <h5>Añadir línea al pedido</h5>
+
+                        <div class="mb-3">
+                            {{ form.product|as_crispy_field }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.variant|as_crispy_field}}
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                
+                                {{ form.quantity|as_crispy_field }}
+                            </div>
+                            <div class="col">
+                                
+                                {{ form.unit_price|as_crispy_field }}
+                            </div>
+                            <div class="col">
+                                
+                                {{ form.notes|as_crispy_field }}
+                            </div>
+
+                            <input type="hidden" name="action" value="add">
+                        
+
+                            <button class="btn btn-success mt-3">
+                            Añadir al Pedido
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="invoice-summary mt-5">
+        <h5>Artículos añadidos</h5>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Artículo.</th>
+                    <th>Variante</th>
+                    <th>Cantitdad</th>
+                    <th>Precio Presupuestado</th>
+                    <th>Anotaciones</th>
+                    <th>--</th>
+                </tr>
+            </thead>
+             <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.model }}</td>
+                    <td>{{ item.variant }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.unit_price }} €</td>
+                    <td>{{ item.notes }} </td>
+                    <td>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="item_id" value="{{ item.pk }}">
+                            <button class="btn btn-danger btn-sm">
+                                🗑
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals text-end">
+            <p class="text-end">Importe Total: <strong class="text-end">{{order.total_price}} €</strong></p>
+        </div>
+        <div class="mt-4">
+            {% if items %} 
+                <p><a class="btn btn-primary" href="{% url 'orders:order_detail' order.pk %}">Listo!</a></p>
+            {% else %}
+                <p><a class="btn btn-secondary" href="{% url 'orders:orders' %}">Volver atrás</a></p>
+            {% endif %}
+            
+        </div>
+</div>
+{% endblock %}
