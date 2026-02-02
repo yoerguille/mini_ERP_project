@@ -15,12 +15,12 @@
     <div class="order-header">
         <h2>{{ object.title }}</h2>
 
-        <p><a href="{% url 'invoices:create_invoice' object.pk %}">Crear Factura</a></p>
+        <p><a href="{% url 'invoices:create_invoice' object.pk %}" class="btn btn-outline-primary">Crear Factura</a></p>
 
         <div class="order-meta">
 
-            <a href="{% url 'orders:order_update' object.pk %}" class="btn btn-outline-primary">
-                Editar
+            <a href="{% url 'orders:order_update' object.pk %}" class="btn btn-outline-secondary">
+                Editar Datos del Pedido
             </a>
 
             <span class="order-delivery">
