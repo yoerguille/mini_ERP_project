@@ -121,6 +121,16 @@ class OrderCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('orders:order_draft', args=[self.object.pk])
+    
+    def get_form(self):
+        form = super().get_form()
+        form.fields["status"].choices = [
+            (Order.OrderStatus.RECEIVED, "Recibido"),
+            (Order.OrderStatus.PENDING_DESIGN, "Pendiente de diseño"),
+            (Order.OrderStatus.DESIGN_READY, "Diseño Confirmado"),
+            (Order.OrderStatus.IN_PRODUCTION, "En producción"),
+        ]
+        return form
 
 @method_decorator(login_required, name='dispatch')
 class OrderListView(ListView):
