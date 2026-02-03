@@ -31,6 +31,9 @@ class OrderDetailView(DetailView):
 
     def post(self, request, pk):
         order = get_object_or_404(Order, pk=pk)
+        if order.status == Order.OrderStatus.COMPLETED:
+            messages.add_message(self.request, messages.ERROR, f"¡No se puede editar un pedido ya completado!")
+            return redirect('orders:order_detail', order.pk)
 
         action = request.POST.get("action")
         if action == 'delete':
