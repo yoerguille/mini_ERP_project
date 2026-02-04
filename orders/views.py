@@ -62,12 +62,15 @@ class OrderUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('orders:order_detail', args=[self.object.pk])
     
+
+@method_decorator(login_required, name='dispatch')    
 class OrderItemDelete(DeleteView):
     model = OrderItem
     template_name = 'orders/order_item_delete.html'
 
     def get_success_url(self):
         return reverse('orders:order_detail', args=[self.object.order.pk])
+    
 
 @method_decorator(login_required, name='dispatch')
 class OrderDeleteView(DeleteView):
@@ -75,7 +78,7 @@ class OrderDeleteView(DeleteView):
     template_name = 'orders/order_delete.html'
     success_url = reverse_lazy('orders:orders')
     
-
+@method_decorator(login_required, name='dispatch')
 class OrderDraftView(View):
 
     def get(self, request, pk):
@@ -173,9 +176,6 @@ class OrderListView(ListView):
 
         return qs.order_by("-created_at")
 
-
-    
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -184,6 +184,8 @@ class OrderListView(ListView):
  
         return context
     
+
+@method_decorator(login_required, name='dispatch')    
 class OrderSentEmail(View):
     def post(self, request, pk ):
         order = get_object_or_404(Order, pk=pk)
