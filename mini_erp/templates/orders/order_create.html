@@ -13,12 +13,14 @@
             <div class="row">
                 <div class="col-12 col-sm-6">
                     {{ form.client|as_crispy_field}}
+                    <p>¿Nuevo cliente? <a href="{% url 'clients:clients_add' %}" class="btn btn-outline-primary">Crear Ficha de Cliente</a></p>
                     {{ form.title|as_crispy_field}}
                     {{ form.status|as_crispy_field}}
                     {{ form.order_type|as_crispy_field}}
                     {{ form.notes|as_crispy_field}}
                     {{ form.delivery_date|as_crispy_field}}
                 </div>
+
             </div>
             <button class= "btn btn-secondary">Guardar</button>
         </form>
