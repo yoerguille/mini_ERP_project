@@ -22,7 +22,7 @@
             <strong>Fecha límite:</strong> 
             {% if order.delivery_date %}{{ order.delivery_date|date:"d/m/Y" }}{% else %}Sin definir{% endif %}
         </p>
-        <p class="card-text"><strong>Total:</strong> {{ order.total_price }} € + IVA</p>
+        <p class="card-text-price"><strong>Total:</strong> {{ order.total_price }} € + IVA</p>
 
         <!-- Botón para ir al detalle del pedido -->
         <a href="{% url 'orders:order_detail' order.pk %}" class="btn btn-sm btn-outline-primary">
