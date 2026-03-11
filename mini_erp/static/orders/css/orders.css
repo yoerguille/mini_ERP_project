@@ -1,3 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 30px;
+    margin:auto 45px
+}
+
 .order-row {
     background-color: #ffffff;
     transition: background-color 0.15s ease;
@@ -118,6 +127,7 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+    width: 100%;
 }
 
 .header ul a {
@@ -125,8 +135,23 @@ body {
     color: black;
     display: block;
     background-color: grey;
-    padding: 8px;
+    padding: 10px;
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
     
+}
+
+
+.header ul a:hover {
+    color: white;
+    background-color: black;
+}
+
+.header h1 {
+    margin-bottom: 20px;
+}
+
+.app-container {
+    padding-top: 0;
 }
