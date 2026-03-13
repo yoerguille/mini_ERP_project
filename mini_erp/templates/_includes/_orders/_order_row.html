@@ -42,8 +42,9 @@
     </div>
 
     <!-- Total + acción -->
-    <div class="col-1 text-end">
-        <div class="order-price fw-bold">{{ order.total_price }} € +IVA</div>
+    <div class="col-auto text-end">
+        <div class="order-price fw-bold">{{ order.total_price }} €</div>
+        <div class="text-muted small">+ IVA</div>
         <a href="{% url 'orders:order_detail' order.pk %}"
            class="btn btn-sm btn-outline-primary mt-1">
             Ver
