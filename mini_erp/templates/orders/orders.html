@@ -12,31 +12,33 @@
       
          <section>
                <div class="row">
-                  <p class="mb-3"><a href="{% url 'orders:order_create' %}">Crear un Nuevo pedido</a></p>
+                     <div class="col-12">
+                        <p class="mb-3">
+                           <a href="{% url 'orders:order_create' %}">Crear un Nuevo pedido</a>
+                        </p>
+                     </div>
                </div>
             
                <div class="row">
-                  <h4>Búsqueda y Filtros</h4>
-                  {% include "_includes/_orders/_order_filters.html" %}
-                  <div class="row g-3">
-                     <h2>Ultimos Encargos</h2>
-                     
-                        <h3 class="mb-3"></h3>
-                        {% for order in orders  %}
+                  <div class="col-12">
+                     <h4>Búsqueda y Filtros</h4>
+                     {% include "_includes/_orders/_order_filters.html" %}
+                     <h2 class="mt-4">Ultimos Encargos</h2>
+                     <div class="order columns">
+                        <div>Cliente</div>
+                        <div>Pedido</div>
+                        <div>Tipo</div>
+                        <div>Estado</div>
+                        <div>Importe</div>
+                     </div>
+                     {% for order in orders  %}
                            {% include "_includes/_orders/_order_row.html" %}
                        
-                        {% endfor %}
-                     
+                     {% endfor %}
                   </div>
                   
-
-                  
-               </div>
-               
-                  
-               
-         </section>
-      
+               </div>                         
+         </section> 
       </div  
 
 

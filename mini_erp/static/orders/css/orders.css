@@ -12,6 +12,8 @@ body {
     transition: background-color 0.15s ease;
 }
 
+
+
 .order-row:hover {
     background-color: #497baa;
 }
@@ -150,4 +152,23 @@ body {
 .header h1 a {
     text-decoration: none;
     color: black;
+}
+
+.order.columns {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-content: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 6px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.order.columns > div {
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
 }
