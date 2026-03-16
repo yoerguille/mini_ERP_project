@@ -1,7 +1,7 @@
 
 
 
-<div class="order-row d-flex align-items-center p-3 mb-2 shadow-sm border rounded">
+<div class="order-row d-flex gap-3 align-items-center p-3 mb-2 shadow-sm border rounded">
     {% load static %}
     <link rel="stylesheet" href="{% static 'orders/css/orders.css' %}">
 
@@ -15,7 +15,8 @@
         {{ order.title }}
     </div>
 
-    <!-- Tipo de pedido -->
+
+    <!-- Tipo de pedido 
     <div class="col-2">
         <span class="badge 
             {% if order.order_type == 'BIG' %} bg-primary
@@ -24,6 +25,7 @@
             {{ order.get_order_type_display }}
         </span>
     </div>
+    -->
 
     <!-- Estado -->
     <div class="col-2">

@@ -10,6 +10,14 @@ body {
 .order-row {
     background-color: #ffffff;
     transition: background-color 0.15s ease;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.order-row div:nth-child(2) {
+    background-color: red;
 }
 
 
