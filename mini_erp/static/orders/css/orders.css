@@ -199,3 +199,17 @@ body {
     padding: 5px;
     font-weight: bold;
 }
+
+.container.mt-4.image > div > div {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+.container.mt-4.image > div > div > img {
+    width: 200px;
+    border-radius: 6px;
+    border: solid grey 2px;
+    
+}
