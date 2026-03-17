@@ -159,16 +159,19 @@
 
     
 
+    <!--Imagenes --> 
 
     <div class="container mt-4">
         <div class="row">
             
-
+            
             <div class="col-md-7">
-                <img src="https://www.bootdey.com/image/400x300/FFB6C1/000000" alt="project-image" class="rounded">
+                {% for item in object.items.all  %}
+                <img src="{{ item.product.image.url }}" alt="project-image" class="rounded">
                 <div class="project-info-box">
                     <p><b>Categories:</b> Design, Illustration</p>
                     <p><b>Skills:</b> Illustrator</p>
+                {% endfor %}
                 </div><!-- / project-info-box -->
             </div><!-- / column -->
         </div>
