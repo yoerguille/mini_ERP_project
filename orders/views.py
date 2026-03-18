@@ -43,6 +43,22 @@ class OrderDetailView(DetailView):
                 order = order
             ).delete()
             return redirect('orders:order_detail', order.pk)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = Order.objects.get(pk=self.kwargs['pk'])
+        images = [
+            item.product.image
+            for item in order.items.all()
+            if item.product.image
+        ]
+        context['order'] = order
+        context['images'] = images
+
+
+        return context
+
+        
 
 @method_decorator(login_required, name='dispatch')
 class OrderUpdateView(UpdateView):

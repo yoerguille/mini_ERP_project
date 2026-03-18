@@ -202,8 +202,7 @@ body {
 
 .container.mt-4.image > div > div {
     display: flex;
-    justify-content: space-between;
-    align-content: center;
+    gap: 10px;
     max-width: 100%;
     flex-wrap: wrap;
 }
@@ -211,5 +210,6 @@ body {
     width: 200px;
     border-radius: 6px;
     border: solid grey 2px;
+    object-fit: cover;
     
 }
