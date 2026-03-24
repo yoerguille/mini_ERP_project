@@ -215,3 +215,10 @@ body {
     
 }
 
+.table-light.invoice th:nth-child(1){
+    width: 140px;
+}
+
+.table-light.invoice th:nth-child(6){
+    text-align: left;
+}
