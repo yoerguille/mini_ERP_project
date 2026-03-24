@@ -211,5 +211,7 @@ body {
     border-radius: 6px;
     border: solid grey 2px;
     object-fit: cover;
+    grid-template-columns: auto;
     
 }
+
